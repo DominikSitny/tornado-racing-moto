@@ -2,6 +2,7 @@
 
 import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react';
 import { Home } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface BreadcrumbItemType {
   label: string;
@@ -13,6 +14,9 @@ interface BreadcrumbProps {
 }
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
+  const locale = useLocale();
+  const t = useTranslations('breadcrumb');
+
   return (
     <div className="container mx-auto px-4 py-5">
       <Breadcrumbs
@@ -22,8 +26,8 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
           list: 'bg-white shadow-sm px-4 py-2',
         }}
       >
-        <BreadcrumbItem key="home" href="/" startContent={<Home size={16} />}>
-          Home
+        <BreadcrumbItem key="home" href={`/${locale}`} startContent={<Home size={16} />}>
+          {t('home')}
         </BreadcrumbItem>
         {items.map((item, index) => (
           <BreadcrumbItem

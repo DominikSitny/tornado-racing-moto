@@ -4,6 +4,7 @@ import { Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
 import Link from 'next/link';
 import { Model } from '@/lib/types';
 import { Wrench, ChevronRight } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface ModelCardProps {
   model: Model;
@@ -11,8 +12,11 @@ interface ModelCardProps {
 }
 
 export default function ModelCard({ model, categoryId }: ModelCardProps) {
+  const locale = useLocale();
+  const t = useTranslations('catalog');
+
   return (
-    <Link href={`/categories/${categoryId}/${model.id}`} className="block w-full">
+    <Link href={`/${locale}/categories/${categoryId}/${model.id}`} className="block w-full">
       <Card
         isPressable
         isHoverable
@@ -47,12 +51,12 @@ export default function ModelCard({ model, categoryId }: ModelCardProps) {
           <div className="flex items-center gap-2">
             <Wrench size={16} className="text-primary" />
             <span className="text-primary font-semibold text-sm">
-              {model.parts.length} {model.parts.length === 1 ? 'Teil' : 'Teile'}
+              {model.parts.length} {model.parts.length === 1 ? t('part') : t('parts')}
             </span>
           </div>
 
           <div className="flex items-center gap-1 text-secondary font-medium text-sm group-hover:text-primary transition-colors">
-            <span>Details</span>
+            <span>{t('details')}</span>
             <ChevronRight size={18} />
           </div>
         </CardFooter>

@@ -1,0 +1,71 @@
+{
+  "navigation": {
+    "home": "Home",
+    "catalog": "Katalog",
+    "contact": "Kontakt",
+    "sendInquiry": "Anfrage senden"
+  },
+  "home": {
+    "badge": "Premium Motorradteile",
+    "title": "Willkommen bei",
+    "brandName": "Tornado Racing Moto",
+    "subtitle": "Deine Quelle für hochwertige Motorradkomponenten und Zubehör. Entdecke unseren umfangreichen Produktkatalog.",
+    "toCatalog": "Zum Katalog",
+    "contactUs": "Kontakt aufnehmen",
+    "fastDelivery": "Schnelle Lieferung",
+    "fastDeliveryDesc": "Expressversand für alle Bestellungen innerhalb Deutschlands.",
+    "qualityGuarantee": "Qualitätsgarantie",
+    "qualityGuaranteeDesc": "Nur Original-Ersatzteile von geprüften Herstellern.",
+    "expertSupport": "Experten-Support",
+    "expertSupportDesc": "Unser Team hilft dir bei der Auswahl der richtigen Teile.",
+    "productCatalog": "Produktkatalog",
+    "ourCatalog": "Unser Katalog",
+    "catalogDesc": "Entdecke unser breites Sortiment an Motorradteilen und Zubehör",
+    "questionsTitle": "Fragen oder Probleme?",
+    "questionsDesc": "Kontaktiere uns für weitere Informationen oder spezielle Anfragen. Wir helfen dir gerne!"
+  },
+  "catalog": {
+    "title": "Katalog",
+    "models": "Modelle",
+    "model": "Modell",
+    "parts": "Teile",
+    "part": "Teil",
+    "availableParts": "Verfügbare Teile",
+    "noPartsAvailable": "Keine Teile für dieses Modell verfügbar.",
+    "noModelsAvailable": "Keine Modelle in dieser Kategorie verfügbar.",
+    "details": "Details",
+    "view": "Ansehen",
+    "onRequest": "Auf Anfrage",
+    "showDetails": "Details anzeigen",
+    "backToParts": "Zurück zu Teilen",
+    "category": "Kategorie",
+    "interestedContact": "Interesse? Kontaktiere uns"
+  },
+  "contact": {
+    "title": "Kontaktiere uns",
+    "subtitle": "Hast du Fragen zu unseren Produkten oder möchtest du mehr über uns erfahren? Fülle einfach das Formular aus und wir werden dir bald antworten.",
+    "name": "Name",
+    "email": "E-Mail",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "success": "Nachricht erfolgreich gesendet!",
+    "error": "Fehler beim Senden. Bitte versuche es erneut.",
+    "phone": "Telefon"
+  },
+  "breadcrumb": {
+    "home": "Home"
+  },
+  "footer": {
+    "copyright": "© 2024 Tornado Racing Moto. Alle Rechte vorbehalten."
+  },
+  "contactMessage": {
+    "greeting": "Hallo,",
+    "interested": "ich interessiere mich für folgendes Teil:",
+    "partLabel": "Teil",
+    "modelLabel": "Modell",
+    "categoryLabel": "Kategorie",
+    "pleaseContact": "Bitte kontaktieren Sie mich für weitere Informationen.",
+    "regards": "Mit freundlichen Grüßen"
+  }
+}

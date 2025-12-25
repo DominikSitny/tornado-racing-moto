@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { Input, Textarea, Button, Card, CardBody } from '@nextui-org/react';
 import { User, Mail, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface FormState {
   name: string;
@@ -15,6 +16,7 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
+  const t = useTranslations('contact');
   const [formData, setFormData] = useState<FormState>({
     name: '',
     email: '',
@@ -44,18 +46,18 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name ist erforderlich';
+      newErrors.name = 'Required';
     }
     if (!formData.email.trim()) {
-      newErrors.email = 'E-Mail ist erforderlich';
+      newErrors.email = 'Required';
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
-        newErrors.email = 'Gültige E-Mail erforderlich';
+        newErrors.email = 'Invalid email';
       }
     }
     if (!formData.message.trim()) {
-      newErrors.message = 'Nachricht ist erforderlich';
+      newErrors.message = 'Required';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -84,18 +86,15 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
               <CheckCircle size={20} className="text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-success-700 mb-1">Nachricht gesendet!</h3>
-              <p className="text-success-600 text-sm">
-                Danke für deine Nachricht. Wir werden bald Kontakt mit dir aufnehmen.
-              </p>
+              <h3 className="font-bold text-success-700 mb-1">{t('success')}</h3>
             </div>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
-            label="Dein Name"
-            placeholder="z.B. Max Mustermann"
+            label={t('name')}
+            placeholder="..."
             value={formData.name}
             onValueChange={(value) => handleChange('name', value)}
             isInvalid={!!errors.name}
@@ -113,8 +112,8 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
 
           <Input
             type="email"
-            label="E-Mail Adresse"
-            placeholder="deine@email.de"
+            label={t('email')}
+            placeholder="email@example.com"
             value={formData.email}
             onValueChange={(value) => handleChange('email', value)}
             isInvalid={!!errors.email}
@@ -131,8 +130,8 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
           />
 
           <Textarea
-            label="Deine Nachricht"
-            placeholder="Erzähl uns, wie wir dir helfen können..."
+            label={t('message')}
+            placeholder="..."
             value={formData.message}
             onValueChange={(value) => handleChange('message', value)}
             isInvalid={!!errors.message}
@@ -160,7 +159,7 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
             startContent={!isLoading && <Send size={20} />}
             className="font-bold text-lg h-14 bg-gradient-to-r from-primary to-red-500"
           >
-            {isLoading ? 'Wird gesendet...' : 'Nachricht senden'}
+            {isLoading ? t('sending') : t('send')}
           </Button>
         </form>
       </CardBody>

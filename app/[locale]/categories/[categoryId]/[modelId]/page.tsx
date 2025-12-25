@@ -3,15 +3,19 @@
 import { useEffect, useState } from 'react';
 import { notFound, useParams } from 'next/navigation';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import PartCard from '@/components/PartCard';
 import Breadcrumb from '@/components/Breadcrumb';
 import { Chip, Spinner } from '@nextui-org/react';
 import { Category, Model } from '@/lib/types';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function ModelPage() {
   const params = useParams();
   const categoryId = params.categoryId as string;
   const modelId = params.modelId as string;
+  const locale = useLocale();
+  const t = useTranslations('catalog');
 
   const [category, setCategory] = useState<Category | null>(null);
   const [model, setModel] = useState<Model | null>(null);
@@ -20,7 +24,7 @@ export default function ModelPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch('/api/catalog');
+        const response = await fetch(`/api/catalog?locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
           const foundCat = data.categories?.find((c: Category) => c.id === categoryId);
@@ -58,8 +62,8 @@ export default function ModelPage() {
       <main className="min-h-screen bg-gray-50">
         <Breadcrumb
           items={[
-            { label: 'Katalog', href: '/categories' },
-            { label: category.name, href: `/categories/${category.id}` },
+            { label: t('title'), href: `/${locale}/categories` },
+            { label: category.name, href: `/${locale}/categories/${category.id}` },
             { label: `${model.brand} ${model.designation}` },
           ]}
         />
@@ -83,11 +87,11 @@ export default function ModelPage() {
               </p>
             </div>
 
-            <h2 className="text-2xl font-bold text-secondary mb-6">Verfügbare Teile</h2>
+            <h2 className="text-2xl font-bold text-secondary mb-6">{t('availableParts')}</h2>
 
             {model.parts.length === 0 ? (
               <p className="text-gray-500 text-center py-12">
-                Keine Teile für dieses Modell verfügbar.
+                {t('noPartsAvailable')}
               </p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -105,9 +109,7 @@ export default function ModelPage() {
         </section>
       </main>
 
-      <footer className="bg-white text-secondary py-8 text-center border-t">
-        <p className="text-secondary/60">&copy; 2024 Tornado Racing Moto. Alle Rechte vorbehalten.</p>
-      </footer>
+      <Footer />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   getAllCategoriesFromDb,
+  getAllCategoriesRaw,
   checkAdminPassword,
   createCategory,
   updateCategory,
@@ -12,10 +13,22 @@ import {
   updatePart,
   deletePart
 } from '@/lib/supabase-data';
+import { Locale } from '@/lib/types';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const categories = await getAllCategoriesFromDb();
+    const { searchParams } = new URL(request.url);
+    const locale = (searchParams.get('locale') || 'de') as Locale;
+    const raw = searchParams.get('raw') === 'true';
+
+    // Für Admin: Alle Sprachfelder laden
+    if (raw) {
+      const categories = await getAllCategoriesRaw();
+      return NextResponse.json({ categories });
+    }
+
+    // Für Frontend: Lokalisierte Daten
+    const categories = await getAllCategoriesFromDb(locale);
     return NextResponse.json({ categories });
   } catch (error) {
     console.error('Error:', error);

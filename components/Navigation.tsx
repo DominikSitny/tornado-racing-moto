@@ -14,15 +14,19 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navigation() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations('navigation');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/categories', label: 'Katalog' },
-    { href: '/contact', label: 'Kontakt' },
+    { href: `/${locale}`, label: t('home') },
+    { href: `/${locale}/categories`, label: t('catalog') },
+    { href: `/${locale}/contact`, label: t('contact') },
   ];
 
   const isActive = (path: string) => pathname === path;
@@ -40,7 +44,7 @@ export default function Navigation() {
       {/* Mobile Menu Toggle */}
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle
-          aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="text-secondary"
         />
       </NavbarContent>
@@ -48,7 +52,7 @@ export default function Navigation() {
       {/* Logo */}
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
-          <NextLink href="/" className="flex items-center">
+          <NextLink href={`/${locale}`} className="flex items-center">
             <Image
               src="/logo.jpeg"
               alt="Tornado Racing Cams"
@@ -60,10 +64,15 @@ export default function Navigation() {
         </NavbarBrand>
       </NavbarContent>
 
+      {/* Mobile Language Switcher */}
+      <NavbarContent className="sm:hidden" justify="end">
+        <LanguageSwitcher />
+      </NavbarContent>
+
       {/* Desktop Navigation */}
       <NavbarContent className="hidden sm:flex gap-8" justify="start">
         <NavbarBrand>
-          <NextLink href="/" className="flex items-center hover:opacity-80 transition-opacity">
+          <NextLink href={`/${locale}`} className="flex items-center hover:opacity-80 transition-opacity">
             <Image
               src="/logo.jpeg"
               alt="Tornado Racing Cams"
@@ -91,14 +100,17 @@ export default function Navigation() {
           </NavbarItem>
         ))}
         <NavbarItem>
+          <LanguageSwitcher />
+        </NavbarItem>
+        <NavbarItem>
           <Button
             as={NextLink}
-            href="/contact"
+            href={`/${locale}/contact`}
             color="primary"
             variant="shadow"
             radius="full"
           >
-            Anfrage senden
+            {t('sendInquiry')}
           </Button>
         </NavbarItem>
       </NavbarContent>
@@ -123,14 +135,14 @@ export default function Navigation() {
         <NavbarMenuItem className="mt-4">
           <Button
             as={NextLink}
-            href="/contact"
+            href={`/${locale}/contact`}
             color="primary"
             variant="shadow"
             radius="full"
             fullWidth
             onClick={() => setIsMenuOpen(false)}
           >
-            Anfrage senden
+            {t('sendInquiry')}
           </Button>
         </NavbarMenuItem>
       </NavbarMenu>

@@ -3,14 +3,18 @@
 import { useEffect, useState } from 'react';
 import { notFound, useParams } from 'next/navigation';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import ModelCard from '@/components/ModelCard';
 import Breadcrumb from '@/components/Breadcrumb';
 import { Category } from '@/lib/types';
 import { Spinner } from '@nextui-org/react';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function CategoryPage() {
   const params = useParams();
   const categoryId = params.categoryId as string;
+  const locale = useLocale();
+  const t = useTranslations('catalog');
 
   const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +22,7 @@ export default function CategoryPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch('/api/catalog');
+        const response = await fetch(`/api/catalog?locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
           const found = data.categories?.find((c: Category) => c.id === categoryId);
@@ -54,7 +58,7 @@ export default function CategoryPage() {
       <main className="min-h-screen bg-gray-50">
         <Breadcrumb
           items={[
-            { label: 'Katalog', href: '/categories' },
+            { label: t('title'), href: `/${locale}/categories` },
             { label: category.name },
           ]}
         />
@@ -68,7 +72,7 @@ export default function CategoryPage() {
 
             {category.models.length === 0 ? (
               <p className="text-gray-500 text-center py-12">
-                Keine Modelle in dieser Kategorie verfügbar.
+                {t('noModelsAvailable')}
               </p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -85,9 +89,7 @@ export default function CategoryPage() {
         </section>
       </main>
 
-      <footer className="bg-white text-secondary py-8 text-center border-t">
-        <p className="text-secondary/60">&copy; 2024 Tornado Racing Moto. Alle Rechte vorbehalten.</p>
-      </footer>
+      <Footer />
     </>
   );
 }

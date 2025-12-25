@@ -1,22 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button, Card, CardBody, Chip, Divider, Spinner } from '@nextui-org/react';
+import { Button, Card, CardBody, Chip, Spinner } from '@nextui-org/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import CategoryCard from '@/components/CategoryCard';
 import { Category } from '@/lib/types';
 import { ArrowRight, Zap, Shield, Wrench, Star, Sparkles } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function Home() {
+  const locale = useLocale();
+  const t = useTranslations('home');
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch('/api/catalog');
+        const response = await fetch(`/api/catalog?locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
           setCategories(data.categories || []);
@@ -56,23 +60,22 @@ export default function Home() {
                 className="mb-8 bg-white/10 text-white border border-white/20"
                 size="lg"
               >
-                Premium Motorradteile
+                {t('badge')}
               </Chip>
 
               <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Willkommen bei
-                <span className="block text-primary mt-2">Tornado Racing Moto</span>
+                {t('title')}
+                <span className="block text-primary mt-2">{t('brandName')}</span>
               </h1>
 
               <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Deine Quelle für hochwertige Motorradkomponenten und Zubehör.
-                Entdecke unseren umfangreichen Produktkatalog.
+                {t('subtitle')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   as={Link}
-                  href="/categories"
+                  href={`/${locale}/categories`}
                   color="primary"
                   variant="shadow"
                   size="lg"
@@ -80,17 +83,17 @@ export default function Home() {
                   endContent={<ArrowRight size={20} />}
                   className="font-bold text-lg px-8 h-14 bg-gradient-to-r from-primary to-red-500"
                 >
-                  Zum Katalog
+                  {t('toCatalog')}
                 </Button>
                 <Button
                   as={Link}
-                  href="/contact"
+                  href={`/${locale}/contact`}
                   variant="bordered"
                   size="lg"
                   radius="full"
                   className="font-bold text-lg px-8 h-14 border-white/30 text-white hover:bg-white/10"
                 >
-                  Kontakt aufnehmen
+                  {t('contactUs')}
                 </Button>
               </div>
             </div>
@@ -109,8 +112,8 @@ export default function Home() {
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-red-500 flex items-center justify-center mx-auto mb-5 text-white shadow-lg">
                     <Zap size={28} />
                   </div>
-                  <h3 className="text-xl font-bold text-secondary mb-3">Schnelle Lieferung</h3>
-                  <p className="text-gray-600">Expressversand für alle Bestellungen innerhalb Deutschlands.</p>
+                  <h3 className="text-xl font-bold text-secondary mb-3">{t('fastDelivery')}</h3>
+                  <p className="text-gray-600">{t('fastDeliveryDesc')}</p>
                 </CardBody>
               </Card>
 
@@ -119,8 +122,8 @@ export default function Home() {
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary to-blue-700 flex items-center justify-center mx-auto mb-5 text-white shadow-lg">
                     <Shield size={28} />
                   </div>
-                  <h3 className="text-xl font-bold text-secondary mb-3">Qualitätsgarantie</h3>
-                  <p className="text-gray-600">Nur Original-Ersatzteile von geprüften Herstellern.</p>
+                  <h3 className="text-xl font-bold text-secondary mb-3">{t('qualityGuarantee')}</h3>
+                  <p className="text-gray-600">{t('qualityGuaranteeDesc')}</p>
                 </CardBody>
               </Card>
 
@@ -129,8 +132,8 @@ export default function Home() {
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-5 text-white shadow-lg">
                     <Wrench size={28} />
                   </div>
-                  <h3 className="text-xl font-bold text-secondary mb-3">Experten-Support</h3>
-                  <p className="text-gray-600">Unser Team hilft dir bei der Auswahl der richtigen Teile.</p>
+                  <h3 className="text-xl font-bold text-secondary mb-3">{t('expertSupport')}</h3>
+                  <p className="text-gray-600">{t('expertSupportDesc')}</p>
                 </CardBody>
               </Card>
             </div>
@@ -147,11 +150,11 @@ export default function Home() {
                 color="primary"
                 className="mb-4"
               >
-                Produktkatalog
+                {t('productCatalog')}
               </Chip>
-              <h2 className="text-4xl font-bold text-secondary mb-4">Unser Katalog</h2>
+              <h2 className="text-4xl font-bold text-secondary mb-4">{t('ourCatalog')}</h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                Entdecke unser breites Sortiment an Motorradteilen und Zubehör
+                {t('catalogDesc')}
               </p>
             </div>
             {loading ? (
@@ -176,43 +179,26 @@ export default function Home() {
           </div>
 
           <div className="container relative z-10 mx-auto px-4 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Fragen oder Probleme?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">{t('questionsTitle')}</h2>
             <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              Kontaktiere uns für weitere Informationen oder spezielle Anfragen. Wir helfen dir gerne!
+              {t('questionsDesc')}
             </p>
             <Button
               as={Link}
-              href="/contact"
+              href={`/${locale}/contact`}
               size="lg"
               radius="full"
               variant="shadow"
               endContent={<ArrowRight size={20} />}
               className="font-bold text-lg px-10 h-14 bg-white text-secondary hover:bg-gray-100"
             >
-              Kontaktiere uns
+              {t('contactUs')}
             </Button>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white text-secondary py-12 border-t">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/logo.jpeg"
-                alt="Tornado Racing Cams"
-                width={150}
-                height={50}
-                className="object-contain"
-              />
-            </div>
-            <Divider orientation="vertical" className="h-8 bg-secondary/20 hidden md:block" />
-            <p className="text-secondary/60">&copy; 2024 Tornado Racing Moto. Alle Rechte vorbehalten.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

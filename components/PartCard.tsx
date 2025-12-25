@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Part } from '@/lib/types';
 import { useState } from 'react';
 import { Eye, MessageCircle } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface PartCardProps {
   part: Part;
@@ -17,6 +18,8 @@ export default function PartCard({
   categoryId,
   modelId,
 }: PartCardProps) {
+  const locale = useLocale();
+  const t = useTranslations('catalog');
   const [imgSrc, setImgSrc] = useState(part.image);
 
   const handleImageError = () => {
@@ -26,7 +29,7 @@ export default function PartCard({
   };
 
   return (
-    <Link href={`/categories/${categoryId}/${modelId}/${part.id}`} className="block w-full">
+    <Link href={`/${locale}/categories/${categoryId}/${modelId}/${part.id}`} className="block w-full">
       <Card
         isPressable
         isHoverable
@@ -53,7 +56,7 @@ export default function PartCard({
               content: 'text-white font-semibold',
             }}
           >
-            Auf Anfrage
+            {t('onRequest')}
           </Chip>
         </div>
 
@@ -68,7 +71,7 @@ export default function PartCard({
 
         <CardFooter className="pt-0 px-5 pb-5 flex justify-between items-center border-t border-gray-100 mt-auto">
           <span className="text-xs font-bold text-primary uppercase tracking-wider">
-            Details anzeigen
+            {t('showDetails')}
           </span>
           <Eye size={18} className="text-secondary" />
         </CardFooter>

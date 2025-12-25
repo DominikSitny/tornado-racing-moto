@@ -5,16 +5,21 @@ import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
 import { Button, Card, Chip, Divider, Spinner } from '@nextui-org/react';
 import { Mail, ArrowLeft, Tag, Bike } from 'lucide-react';
 import { Category, Model, Part } from '@/lib/types';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function PartPage() {
   const params = useParams();
   const categoryId = params.categoryId as string;
   const modelId = params.modelId as string;
   const partId = params.partId as string;
+  const locale = useLocale();
+  const t = useTranslations('catalog');
+  const tMsg = useTranslations('contactMessage');
 
   const [category, setCategory] = useState<Category | null>(null);
   const [model, setModel] = useState<Model | null>(null);
@@ -24,7 +29,7 @@ export default function PartPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch('/api/catalog');
+        const response = await fetch(`/api/catalog?locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
           const foundCat = data.categories?.find((c: Category) => c.id === categoryId);
@@ -58,17 +63,19 @@ export default function PartPage() {
     notFound();
   }
 
+  const contactMessage = `${tMsg('greeting')}\n\n${tMsg('interested')}\n\n${tMsg('partLabel')}: ${part.name}\n${tMsg('modelLabel')}: ${model.brand} ${model.designation}\n${tMsg('categoryLabel')}: ${category.name}\n\n${tMsg('pleaseContact')}\n\n${tMsg('regards')}`;
+
   return (
     <>
       <Navigation />
       <main className="min-h-screen bg-gray-50">
         <Breadcrumb
           items={[
-            { label: 'Katalog', href: '/categories' },
-            { label: category.name, href: `/categories/${category.id}` },
+            { label: t('title'), href: `/${locale}/categories` },
+            { label: category.name, href: `/${locale}/categories/${category.id}` },
             {
               label: `${model.brand} ${model.designation}`,
-              href: `/categories/${category.id}/${model.id}`,
+              href: `/${locale}/categories/${category.id}/${model.id}`,
             },
             { label: part.name },
           ]}
@@ -111,7 +118,7 @@ export default function PartPage() {
                 <div className="flex flex-col gap-4 mb-8">
                   <Button
                     as={Link}
-                    href={`/contact?message=${encodeURIComponent(`Hallo,\n\nich interessiere mich für folgendes Teil:\n\nTeil: ${part.name}\nModell: ${model.brand} ${model.designation}\nKategorie: ${category.name}\n\nBitte kontaktieren Sie mich für weitere Informationen.\n\nMit freundlichen Grüßen`)}`}
+                    href={`/${locale}/contact?message=${encodeURIComponent(contactMessage)}`}
                     color="primary"
                     variant="shadow"
                     size="lg"
@@ -119,18 +126,18 @@ export default function PartPage() {
                     startContent={<Mail size={20} />}
                     className="font-bold text-lg h-14 bg-gradient-to-r from-primary to-red-500"
                   >
-                    Interesse? Kontaktiere uns
+                    {t('interestedContact')}
                   </Button>
                   <Button
                     as={Link}
-                    href={`/categories/${category.id}/${model.id}`}
+                    href={`/${locale}/categories/${category.id}/${model.id}`}
                     variant="bordered"
                     size="lg"
                     radius="lg"
                     startContent={<ArrowLeft size={20} />}
                     className="font-medium h-14"
                   >
-                    Zurück zu Teilen
+                    {t('backToParts')}
                   </Button>
                 </div>
 
@@ -139,9 +146,9 @@ export default function PartPage() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <Tag size={18} className="text-gray-400" />
-                    <span className="text-gray-600">Kategorie:</span>
+                    <span className="text-gray-600">{t('category')}:</span>
                     <Link
-                      href={`/categories/${category.id}`}
+                      href={`/${locale}/categories/${category.id}`}
                       className="text-primary font-medium hover:underline"
                     >
                       {category.name}
@@ -149,9 +156,9 @@ export default function PartPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <Bike size={18} className="text-gray-400" />
-                    <span className="text-gray-600">Modell:</span>
+                    <span className="text-gray-600">{t('model')}:</span>
                     <Link
-                      href={`/categories/${category.id}/${model.id}`}
+                      href={`/${locale}/categories/${category.id}/${model.id}`}
                       className="text-primary font-medium hover:underline"
                     >
                       {model.brand} {model.designation}
@@ -164,9 +171,7 @@ export default function PartPage() {
         </section>
       </main>
 
-      <footer className="bg-white text-secondary py-8 text-center border-t">
-        <p className="text-secondary/60">&copy; 2024 Tornado Racing Moto. Alle Rechte vorbehalten.</p>
-      </footer>
+      <Footer />
     </>
   );
 }

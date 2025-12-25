@@ -4,14 +4,18 @@ import { Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
 import Link from 'next/link';
 import { Category } from '@/lib/types';
 import { Bike, ChevronRight } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface CategoryCardProps {
   category: Category;
 }
 
 export default function CategoryCard({ category }: CategoryCardProps) {
+  const locale = useLocale();
+  const t = useTranslations('catalog');
+
   return (
-    <Link href={`/categories/${category.id}`} className="block w-full">
+    <Link href={`/${locale}/categories/${category.id}`} className="block w-full">
       <Card
         isPressable
         isHoverable
@@ -42,11 +46,11 @@ export default function CategoryCard({ category }: CategoryCardProps) {
               content: 'text-primary font-semibold',
             }}
           >
-            {category.models.length} {category.models.length === 1 ? 'Modell' : 'Modelle'}
+            {category.models.length} {category.models.length === 1 ? t('model') : t('models')}
           </Chip>
 
           <div className="flex items-center gap-1 text-primary font-medium text-sm">
-            <span>Ansehen</span>
+            <span>{t('view')}</span>
             <ChevronRight size={18} />
           </div>
         </CardFooter>

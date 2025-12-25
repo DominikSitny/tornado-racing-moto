@@ -15,6 +15,8 @@ import {
   useDisclosure,
   Chip,
   Spinner,
+  Tabs,
+  Tab,
 } from '@nextui-org/react';
 import {
   Plus,
@@ -31,6 +33,7 @@ import {
   Image as ImageIcon,
   LogOut,
   RefreshCw,
+  Globe,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Category, Model, Part } from '@/lib/types';
@@ -57,9 +60,13 @@ export default function AdminPage() {
   const [formData, setFormData] = useState({
     id: '',
     name: '',
+    name_en: '',
+    name_pl: '',
     brand: '',
     designation: '',
     description: '',
+    description_en: '',
+    description_pl: '',
     image: '',
   });
 
@@ -78,7 +85,8 @@ export default function AdminPage() {
 
   const loadCatalog = async () => {
     try {
-      const response = await fetch('/api/catalog');
+      // Load RAW data with all language fields
+      const response = await fetch('/api/catalog?raw=true');
       if (response.ok) {
         const data = await response.json();
         setCategories(data.categories || []);
@@ -187,7 +195,12 @@ export default function AdminPage() {
   const openAddModal = () => {
     setModalMode('add');
     setEditingItem(null);
-    setFormData({ id: '', name: '', brand: '', designation: '', description: '', image: '' });
+    setFormData({
+      id: '', name: '', name_en: '', name_pl: '',
+      brand: '', designation: '',
+      description: '', description_en: '', description_pl: '',
+      image: ''
+    });
     onOpen();
   };
 
@@ -196,13 +209,42 @@ export default function AdminPage() {
     setEditingItem(item);
     if (viewMode === 'categories') {
       const cat = item as Category;
-      setFormData({ id: cat.id, name: cat.name, brand: '', designation: '', description: cat.description, image: '' });
+      setFormData({
+        id: cat.id,
+        name: cat.name,
+        name_en: cat.name_en || '',
+        name_pl: cat.name_pl || '',
+        brand: '', designation: '',
+        description: cat.description,
+        description_en: cat.description_en || '',
+        description_pl: cat.description_pl || '',
+        image: ''
+      });
     } else if (viewMode === 'models') {
       const model = item as Model;
-      setFormData({ id: model.id, name: '', brand: model.brand, designation: model.designation, description: model.description, image: '' });
+      setFormData({
+        id: model.id,
+        name: '', name_en: '', name_pl: '',
+        brand: model.brand,
+        designation: model.designation,
+        description: model.description,
+        description_en: model.description_en || '',
+        description_pl: model.description_pl || '',
+        image: ''
+      });
     } else {
       const part = item as Part;
-      setFormData({ id: part.id, name: part.name, brand: '', designation: '', description: part.description, image: part.image });
+      setFormData({
+        id: part.id,
+        name: part.name,
+        name_en: part.name_en || '',
+        name_pl: part.name_pl || '',
+        brand: '', designation: '',
+        description: part.description,
+        description_en: part.description_en || '',
+        description_pl: part.description_pl || '',
+        image: part.image
+      });
     }
     onOpen();
   };
@@ -213,13 +255,21 @@ export default function AdminPage() {
         await apiCall('createCategory', {
           id: generateId(formData.name),
           name: formData.name,
+          name_en: formData.name_en || null,
+          name_pl: formData.name_pl || null,
           description: formData.description,
+          description_en: formData.description_en || null,
+          description_pl: formData.description_pl || null,
         });
       } else {
         await apiCall('updateCategory', {
           id: editingItem?.id,
           name: formData.name,
+          name_en: formData.name_en || null,
+          name_pl: formData.name_pl || null,
           description: formData.description,
+          description_en: formData.description_en || null,
+          description_pl: formData.description_pl || null,
         });
       }
     } else if (viewMode === 'models' && selectedCategory) {
@@ -230,6 +280,8 @@ export default function AdminPage() {
           brand: formData.brand,
           designation: formData.designation,
           description: formData.description,
+          description_en: formData.description_en || null,
+          description_pl: formData.description_pl || null,
         });
       } else {
         await apiCall('updateModel', {
@@ -237,6 +289,8 @@ export default function AdminPage() {
           brand: formData.brand,
           designation: formData.designation,
           description: formData.description,
+          description_en: formData.description_en || null,
+          description_pl: formData.description_pl || null,
         });
       }
     } else if (viewMode === 'parts' && selectedModel) {
@@ -245,14 +299,22 @@ export default function AdminPage() {
           id: generateId(formData.name),
           model_id: selectedModel.id,
           name: formData.name,
+          name_en: formData.name_en || null,
+          name_pl: formData.name_pl || null,
           description: formData.description,
+          description_en: formData.description_en || null,
+          description_pl: formData.description_pl || null,
           image: formData.image || '',
         });
       } else {
         await apiCall('updatePart', {
           id: editingItem?.id,
           name: formData.name,
+          name_en: formData.name_en || null,
+          name_pl: formData.name_pl || null,
           description: formData.description,
+          description_en: formData.description_en || null,
+          description_pl: formData.description_pl || null,
           image: formData.image,
         });
       }
@@ -319,6 +381,85 @@ export default function AdminPage() {
     return <Wrench size={24} />;
   };
 
+  // Render language tabs for form fields
+  const renderLanguageTabs = () => (
+    <Tabs aria-label="Sprachen" color="primary" variant="bordered" classNames={{ tabList: 'gap-2' }}>
+      <Tab key="de" title={<span className="flex items-center gap-1">🇩🇪 Deutsch</span>}>
+        <div className="space-y-4 pt-4">
+          {(viewMode === 'categories' || viewMode === 'parts') && (
+            <Input
+              label="Name (DE)"
+              placeholder="Name auf Deutsch"
+              value={formData.name}
+              onValueChange={(v) => setFormData({ ...formData, name: v })}
+              isRequired
+            />
+          )}
+          {viewMode === 'models' && (
+            <>
+              <Input
+                label="Marke"
+                placeholder="z.B. Yamaha, Honda"
+                value={formData.brand}
+                onValueChange={(v) => setFormData({ ...formData, brand: v })}
+                isRequired
+              />
+              <Input
+                label="Modellbezeichnung"
+                placeholder="z.B. R6, CBR600RR"
+                value={formData.designation}
+                onValueChange={(v) => setFormData({ ...formData, designation: v })}
+                isRequired
+              />
+            </>
+          )}
+          <Textarea
+            label="Beschreibung (DE)"
+            placeholder="Beschreibung auf Deutsch..."
+            value={formData.description}
+            onValueChange={(v) => setFormData({ ...formData, description: v })}
+          />
+        </div>
+      </Tab>
+      <Tab key="en" title={<span className="flex items-center gap-1">🇬🇧 English</span>}>
+        <div className="space-y-4 pt-4">
+          {(viewMode === 'categories' || viewMode === 'parts') && (
+            <Input
+              label="Name (EN)"
+              placeholder="Name in English"
+              value={formData.name_en}
+              onValueChange={(v) => setFormData({ ...formData, name_en: v })}
+            />
+          )}
+          <Textarea
+            label="Description (EN)"
+            placeholder="Description in English..."
+            value={formData.description_en}
+            onValueChange={(v) => setFormData({ ...formData, description_en: v })}
+          />
+        </div>
+      </Tab>
+      <Tab key="pl" title={<span className="flex items-center gap-1">🇵🇱 Polski</span>}>
+        <div className="space-y-4 pt-4">
+          {(viewMode === 'categories' || viewMode === 'parts') && (
+            <Input
+              label="Nazwa (PL)"
+              placeholder="Nazwa po polsku"
+              value={formData.name_pl}
+              onValueChange={(v) => setFormData({ ...formData, name_pl: v })}
+            />
+          )}
+          <Textarea
+            label="Opis (PL)"
+            placeholder="Opis po polsku..."
+            value={formData.description_pl}
+            onValueChange={(v) => setFormData({ ...formData, description_pl: v })}
+          />
+        </div>
+      </Tab>
+    </Tabs>
+  );
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -372,7 +513,12 @@ export default function AdminPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-secondary">Katalog-Verwaltung</h1>
+              <h1 className="text-2xl font-bold text-secondary flex items-center gap-2">
+                Katalog-Verwaltung
+                <Chip size="sm" color="primary" variant="flat" startContent={<Globe size={12} />}>
+                  DE / EN / PL
+                </Chip>
+              </h1>
               <p className="text-gray-500 text-sm">Tornado Racing Moto</p>
             </div>
             <div className="flex gap-2 items-center flex-wrap">
@@ -502,51 +648,36 @@ export default function AdminPage() {
         )}
       </main>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
         <ModalContent>
           <ModalHeader>{modalMode === 'add' ? 'Hinzufügen' : 'Bearbeiten'}</ModalHeader>
           <ModalBody>
-            {viewMode === 'categories' && (
-              <>
-                <Input label="Name" placeholder="z.B. Sport, Touring, Enduro" value={formData.name} onValueChange={(v) => setFormData({ ...formData, name: v })} />
-                <Textarea label="Beschreibung" placeholder="Beschreibung der Kategorie..." value={formData.description} onValueChange={(v) => setFormData({ ...formData, description: v })} />
-              </>
-            )}
-            {viewMode === 'models' && (
-              <>
-                <Input label="Marke" placeholder="z.B. Yamaha, Honda, Kawasaki" value={formData.brand} onValueChange={(v) => setFormData({ ...formData, brand: v })} />
-                <Input label="Modellbezeichnung" placeholder="z.B. R6, CBR600RR, Ninja H2" value={formData.designation} onValueChange={(v) => setFormData({ ...formData, designation: v })} />
-                <Textarea label="Beschreibung" placeholder="Beschreibung des Modells..." value={formData.description} onValueChange={(v) => setFormData({ ...formData, description: v })} />
-              </>
-            )}
+            {renderLanguageTabs()}
+
             {viewMode === 'parts' && (
-              <>
-                <Input label="Name" placeholder="z.B. Bremsanlage, Auspuff, Verkleidung" value={formData.name} onValueChange={(v) => setFormData({ ...formData, name: v })} />
-                <Textarea label="Beschreibung" placeholder="Beschreibung des Teils..." value={formData.description} onValueChange={(v) => setFormData({ ...formData, description: v })} />
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary">Bild</label>
-                  <input type="file" ref={fileInputRef} accept="image/*" onChange={handleImageUpload} className="hidden" />
-                  <Button variant="bordered" startContent={uploadingImage ? <Spinner size="sm" /> : <Upload size={18} />} onClick={() => fileInputRef.current?.click()} isDisabled={uploadingImage} fullWidth>
-                    {uploadingImage ? 'Hochladen...' : 'Bild hochladen'}
-                  </Button>
-                  {formData.image && (
-                    <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-100 mt-2">
-                      <Image src={formData.image} alt="Vorschau" fill className="object-cover" />
-                      <Button isIconOnly size="sm" color="danger" variant="solid" className="absolute top-2 right-2" onClick={() => setFormData({ ...formData, image: '' })}>
-                        <Trash2 size={14} />
-                      </Button>
+              <div className="space-y-2 mt-4 border-t pt-4">
+                <label className="text-sm font-medium text-secondary">Bild</label>
+                <input type="file" ref={fileInputRef} accept="image/*" onChange={handleImageUpload} className="hidden" />
+                <Button variant="bordered" startContent={uploadingImage ? <Spinner size="sm" /> : <Upload size={18} />} onClick={() => fileInputRef.current?.click()} isDisabled={uploadingImage} fullWidth>
+                  {uploadingImage ? 'Hochladen...' : 'Bild hochladen'}
+                </Button>
+                {formData.image && (
+                  <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-100 mt-2">
+                    <Image src={formData.image} alt="Vorschau" fill className="object-cover" />
+                    <Button isIconOnly size="sm" color="danger" variant="solid" className="absolute top-2 right-2" onClick={() => setFormData({ ...formData, image: '' })}>
+                      <Trash2 size={14} />
+                    </Button>
+                  </div>
+                )}
+                {!formData.image && (
+                  <div className="w-full h-40 rounded-lg bg-gray-100 flex items-center justify-center">
+                    <div className="text-center text-gray-400">
+                      <ImageIcon size={32} className="mx-auto mb-2" />
+                      <p className="text-sm">Kein Bild ausgewählt</p>
                     </div>
-                  )}
-                  {!formData.image && (
-                    <div className="w-full h-40 rounded-lg bg-gray-100 flex items-center justify-center">
-                      <div className="text-center text-gray-400">
-                        <ImageIcon size={32} className="mx-auto mb-2" />
-                        <p className="text-sm">Kein Bild ausgewählt</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </>
+                  </div>
+                )}
+              </div>
             )}
           </ModalBody>
           <ModalFooter>
