@@ -35,8 +35,8 @@ function ContactContent() {
             </div>
             <div>
               <h3 className="font-bold text-secondary mb-1">{t('email')}</h3>
-              <a href="mailto:info@tornadoprod.de" className="text-primary hover:underline">
-                info@tornadoprod.de
+              <a href="mailto:tornado-racing-moto@wp.pl" className="text-primary hover:underline">
+                tornado-racing-moto@wp.pl
               </a>
             </div>
           </CardBody>
