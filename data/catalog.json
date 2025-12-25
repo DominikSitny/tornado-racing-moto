@@ -1,0 +1,120 @@
+{
+  "categories": [
+    {
+      "id": "sport",
+      "name": "Sport",
+      "description": "Hochleistungs-Sportmotorräder und deren Komponenten für maximale Performance",
+      "models": [
+        {
+          "id": "yamaha-r6",
+          "brand": "Yamaha",
+          "designation": "R6",
+          "description": "Yamahas renommiertes Supersport-Motorrad mit aggressivem Design und beeindruckender Beschleunigung",
+          "parts": [
+            {
+              "id": "teil1",
+              "name": "Hochleistungs-Bremsanlage",
+              "description": "Verbesserte Bremsanlage mit höherer Bremsleistung für präzisere Kontrolle in sportlichen Fahrsituationen",
+              "image": "/images/parts/1766668081260-thumb-8c0e63cd576f.jpeg"
+            },
+            {
+              "id": "teil2",
+              "name": "Titanium Auspuffanlage",
+              "description": "Leichte Titanium-Auspuffanlage für verbesserte Performance und aggressiveren Sound",
+              "image": "/images/parts/teil2.jpg"
+            }
+          ]
+        },
+        {
+          "id": "kawasaki-ninja",
+          "brand": "Kawasaki",
+          "designation": "Ninja H2",
+          "description": "Hypersportler mit Kompressor-Engine und extremer Leistung",
+          "parts": [
+            {
+              "id": "teil3",
+              "name": "Carbon-Verkleidung",
+              "description": "Leichte Carbon-Verkleidung zur Gewichtsreduktion und aerodynamischen Verbesserung",
+              "image": "/images/parts/teil3.jpg"
+            },
+            {
+              "id": "teil4",
+              "name": "Öhlins Suspension",
+              "description": "Premium-Fahrwerk für optimale Straßenlage und Fahrdynamik",
+              "image": "/images/parts/teil4.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "touring",
+      "name": "Touring",
+      "description": "Komfortable Motorräder für lange Strecken und Komfortfahrten",
+      "models": [
+        {
+          "id": "harley-davidson-street",
+          "brand": "Harley-Davidson",
+          "designation": "Street Glide",
+          "description": "Ikonisches Cruiser-Motorrad mit klassischem American-Dream-Style und maximalen Komfort",
+          "parts": [
+            {
+              "id": "teil5",
+              "name": "Leder-Satteltaschen",
+              "description": "Robuste Leder-Satteltaschen mit Vintage-Look für zusätzlichen Stauraum",
+              "image": "/images/parts/teil5.jpg"
+            },
+            {
+              "id": "teil6",
+              "name": "Windschild",
+              "description": "Vergrößerter Windschild zur Reduzierung von Windgeräuschen und Ermüdung",
+              "image": "/images/parts/teil6.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "speedway",
+      "name": "Speedway",
+      "description": "Test Test",
+      "models": [
+        {
+          "id": "testmarke-modelltest",
+          "brand": "testMarke",
+          "designation": "ModellTest",
+          "description": "Beschriebung Test",
+          "parts": [
+            {
+              "id": "teil-1",
+              "name": "Teil 1",
+              "description": "testBeschreibung Teil",
+              "image": "/images/parts/1766669059743-thumb-8c0e63cd576f.jpeg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kategorie4",
+      "name": "kategorie4",
+      "description": "Beschreibung",
+      "models": [
+        {
+          "id": "marke-modell",
+          "brand": "Marke",
+          "designation": "Modell",
+          "description": "beschriebung",
+          "parts": [
+            {
+              "id": "nockenwelle",
+              "name": "Nockenwelle",
+              "description": "Beschreibung",
+              "image": "/images/parts/1766669833830-thumb-8c0e63cd576f.jpeg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
