@@ -1,6 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
+type Locale = 'de' | 'en' | 'pl';
+
+const emailTemplates = {
+  de: {
+    subject: 'Vielen Dank für Ihre Nachricht - Tornado Racing Moto',
+    title: 'Vielen Dank!',
+    greeting: (name: string) => `Hallo ${name},`,
+    body: 'vielen Dank für Ihre Nachricht! Wir haben Ihre Anfrage erhalten und werden uns so schnell wie möglich bei Ihnen melden.',
+    responseTime: 'In der Regel antworten wir innerhalb von 24-48 Stunden.',
+    yourMessage: 'Ihre Nachricht:',
+    regards: 'Mit freundlichen Grüßen,',
+    team: 'Ihr Tornado Racing Moto Team',
+    footer: 'Tornado Racing Moto | Premium Motorradteile',
+  },
+  en: {
+    subject: 'Thank you for your message - Tornado Racing Moto',
+    title: 'Thank you!',
+    greeting: (name: string) => `Hello ${name},`,
+    body: 'Thank you for your message! We have received your inquiry and will get back to you as soon as possible.',
+    responseTime: 'We usually respond within 24-48 hours.',
+    yourMessage: 'Your message:',
+    regards: 'Best regards,',
+    team: 'Your Tornado Racing Moto Team',
+    footer: 'Tornado Racing Moto | Premium Motorcycle Parts',
+  },
+  pl: {
+    subject: 'Dziękujemy za wiadomość - Tornado Racing Moto',
+    title: 'Dziękujemy!',
+    greeting: (name: string) => `Witaj ${name},`,
+    body: 'Dziękujemy za wiadomość! Otrzymaliśmy Twoje zapytanie i odpowiemy najszybciej jak to możliwe.',
+    responseTime: 'Zazwyczaj odpowiadamy w ciągu 24-48 godzin.',
+    yourMessage: 'Twoja wiadomość:',
+    regards: 'Z poważaniem,',
+    team: 'Zespół Tornado Racing Moto',
+    footer: 'Tornado Racing Moto | Części Motocyklowe Premium',
+  },
+};
+
 export async function POST(request: NextRequest) {
   try {
     if (!process.env.RESEND_API_KEY) {
@@ -12,7 +50,8 @@ export async function POST(request: NextRequest) {
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const { name, email, message } = await request.json();
+    const { name, email, message, locale = 'de' } = await request.json();
+    const template = emailTemplates[locale as Locale] || emailTemplates.de;
 
     // Validation
     if (!name || !email || !message) {
@@ -70,35 +109,35 @@ export async function POST(request: NextRequest) {
     await resend.emails.send({
       from: 'Tornado Racing Moto <onboarding@resend.dev>', // Change to your verified domain later
       to: email,
-      subject: 'Vielen Dank für Ihre Nachricht - Tornado Racing Moto',
+      subject: template.subject,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); padding: 30px; text-align: center;">
-            <h1 style="color: white; margin: 0;">Vielen Dank!</h1>
+            <h1 style="color: white; margin: 0;">${template.title}</h1>
           </div>
           <div style="padding: 30px; background: #f9fafb;">
-            <p style="font-size: 16px; color: #374151;">Hallo ${name},</p>
+            <p style="font-size: 16px; color: #374151;">${template.greeting(name)}</p>
 
             <p style="font-size: 16px; color: #374151; line-height: 1.6;">
-              vielen Dank für Ihre Nachricht! Wir haben Ihre Anfrage erhalten und werden uns so schnell wie möglich bei Ihnen melden.
+              ${template.body}
             </p>
 
             <p style="font-size: 16px; color: #374151; line-height: 1.6;">
-              In der Regel antworten wir innerhalb von 24-48 Stunden.
+              ${template.responseTime}
             </p>
 
             <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb; margin: 20px 0;">
-              <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;"><strong>Ihre Nachricht:</strong></p>
+              <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;"><strong>${template.yourMessage}</strong></p>
               <p style="margin: 0; white-space: pre-wrap; color: #374151;">${message}</p>
             </div>
 
             <p style="font-size: 16px; color: #374151;">
-              Mit freundlichen Grüßen,<br>
-              <strong>Ihr Tornado Racing Moto Team</strong>
+              ${template.regards}<br>
+              <strong>${template.team}</strong>
             </p>
           </div>
           <div style="padding: 20px; text-align: center; color: #6b7280; font-size: 12px; border-top: 1px solid #e5e7eb;">
-            <p style="margin: 0;">Tornado Racing Moto | Premium Motorradteile</p>
+            <p style="margin: 0;">${template.footer}</p>
           </div>
         </div>
       `,

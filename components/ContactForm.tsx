@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { Input, Textarea, Button, Card, CardBody } from '@nextui-org/react';
 import { User, Mail, MessageSquare, Send, CheckCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface FormState {
   name: string;
@@ -17,6 +17,7 @@ interface ContactFormProps {
 
 export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
   const t = useTranslations('contact');
+  const locale = useLocale();
   const [formData, setFormData] = useState<FormState>({
     name: '',
     email: '',
@@ -72,7 +73,7 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, locale }),
       });
 
       if (response.ok) {
