@@ -2,6 +2,7 @@
   "navigation": {
     "home": "Home",
     "catalog": "Catalog",
+    "about": "About Us",
     "contact": "Contact",
     "sendInquiry": "Send Inquiry"
   },
@@ -67,5 +68,26 @@
     "categoryLabel": "Category",
     "pleaseContact": "Please contact me for more information.",
     "regards": "Best regards"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Passion for motorcycles for years",
+    "story": "Our Story",
+    "storyText": "Tornado Racing Moto was born from a passion for motorcycles and the desire to offer riders high-quality parts and accessories. What started as a small project is now a trusted partner for motorcycle enthusiasts across Europe.",
+    "mission": "Our Mission",
+    "missionText": "We strive to offer every customer the best motorcycle parts at fair prices. Quality, reliability, and first-class customer service are our top priorities.",
+    "values": "Our Values",
+    "quality": "Quality",
+    "qualityText": "We only offer certified original parts from renowned manufacturers.",
+    "expertise": "Expertise",
+    "expertiseText": "Our team consists of experienced motorcycle experts who provide competent advice.",
+    "service": "Service",
+    "serviceText": "Fast delivery, easy returns, and personal support are a matter of course for us.",
+    "trust": "Trust",
+    "trustText": "Thousands of satisfied customers trust our products and services.",
+    "team": "Our Team",
+    "teamText": "Behind Tornado Racing Moto is a dedicated team of motorcycle enthusiasts who have turned their passion into a profession.",
+    "contactCta": "Have questions? Contact us!",
+    "contactButton": "Contact Us"
   }
 }
