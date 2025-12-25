@@ -26,13 +26,13 @@ export default function PartCard({
   };
 
   return (
-    <Link href={`/categories/${categoryId}/${modelId}/${part.id}`}>
+    <Link href={`/categories/${categoryId}/${modelId}/${part.id}`} className="block w-full">
       <Card
         isPressable
         isHoverable
-        className="h-full border-none bg-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+        className="h-[380px] w-full border-none bg-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
       >
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <Image
             src={imgSrc}
             alt={part.name}
@@ -57,7 +57,7 @@ export default function PartCard({
           </Chip>
         </div>
 
-        <CardBody className="p-5 gap-2">
+        <CardBody className="p-5 gap-2 flex-grow">
           <h3 className="font-bold text-lg text-secondary line-clamp-1">
             {part.name}
           </h3>
@@ -66,7 +66,7 @@ export default function PartCard({
           </p>
         </CardBody>
 
-        <CardFooter className="pt-0 px-5 pb-5 flex justify-between items-center border-t border-gray-100">
+        <CardFooter className="pt-0 px-5 pb-5 flex justify-between items-center border-t border-gray-100 mt-auto">
           <span className="text-xs font-bold text-primary uppercase tracking-wider">
             Details anzeigen
           </span>

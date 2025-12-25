@@ -12,14 +12,14 @@ interface ModelCardProps {
 
 export default function ModelCard({ model, categoryId }: ModelCardProps) {
   return (
-    <Link href={`/categories/${categoryId}/${model.id}`}>
+    <Link href={`/categories/${categoryId}/${model.id}`} className="block w-full">
       <Card
         isPressable
         isHoverable
-        className="h-full border-none bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+        className="h-[280px] w-full border-none bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
       >
-        <CardBody className="p-6 gap-4">
-          <div className="flex items-center gap-3">
+        <CardBody className="p-6 gap-4 flex-grow">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <Chip
               color="primary"
               variant="shadow"
@@ -33,7 +33,7 @@ export default function ModelCard({ model, categoryId }: ModelCardProps) {
             </Chip>
           </div>
 
-          <div>
+          <div className="flex-grow">
             <h2 className="text-2xl font-bold text-secondary mb-2">
               {model.designation}
             </h2>
@@ -43,7 +43,7 @@ export default function ModelCard({ model, categoryId }: ModelCardProps) {
           </div>
         </CardBody>
 
-        <CardFooter className="pt-0 px-6 pb-6 flex justify-between items-center">
+        <CardFooter className="pt-0 px-6 pb-6 flex justify-between items-center mt-auto">
           <div className="flex items-center gap-2">
             <Wrench size={16} className="text-primary" />
             <span className="text-primary font-semibold text-sm">
