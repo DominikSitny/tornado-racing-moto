@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     // Send email to you (the business owner)
     const { error } = await resend.emails.send({
       from: 'Tornado Racing Moto <onboarding@resend.dev>', // Change to your verified domain later
-      to: process.env.CONTACT_EMAIL || 'info@tornadoprod.de',
+      to: process.env.CONTACT_EMAIL || 'tornado-racing-moto@wp.pl',
       replyTo: email,
       subject: `Neue Kontaktanfrage von ${name}`,
       html: `
