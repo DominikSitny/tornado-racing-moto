@@ -66,15 +66,30 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
       return;
     }
 
-    setTimeout(() => {
-      setSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
-      setIsLoading(false);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 5000);
-    }, 500);
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setSubmitted(false);
+        }, 5000);
+      } else {
+        const data = await response.json();
+        setErrors({ form: data.error || t('error') });
+      }
+    } catch {
+      setErrors({ form: t('error') });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -88,6 +103,12 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
             <div>
               <h3 className="font-bold text-success-700 mb-1">{t('success')}</h3>
             </div>
+          </div>
+        )}
+
+        {errors.form && (
+          <div className="mb-8 p-5 bg-danger-50 border border-danger-200 rounded-2xl">
+            <p className="text-danger-700 font-medium">{errors.form}</p>
           </div>
         )}
 
