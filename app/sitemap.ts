@@ -2,6 +2,9 @@ import { MetadataRoute } from 'next';
 import { supabase } from '@/lib/supabase';
 
 const BASE_URL = 'https://tornado-racing-moto.vercel.app';
+
+// Neu erzeugen, damit im Admin angelegte Teile automatisch in die Sitemap kommen (spätestens nach 1 Stunde)
+export const revalidate = 3600;
 const locales = ['de', 'en', 'pl'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
