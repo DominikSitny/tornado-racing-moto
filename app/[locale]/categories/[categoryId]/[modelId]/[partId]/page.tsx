@@ -1,163 +1,54 @@
-'use client';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import PartView from '@/components/views/PartView';
+import { BASE_URL, findCategory, jsonLd } from '@/lib/catalog-server';
 
-import { useEffect, useState } from 'react';
-import { notFound, useParams } from 'next/navigation';
-import PartImage from '@/components/PartImage';
-import Link from 'next/link';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import Breadcrumb from '@/components/Breadcrumb';
-import { Button, Spinner } from '@nextui-org/react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { Category, Model, Part } from '@/lib/types';
-import { useLocale, useTranslations } from 'next-intl';
+export default async function PartPage({
+  params,
+}: {
+  params: Promise<{ locale: string; categoryId: string; modelId: string; partId: string }>;
+}) {
+  const { locale, categoryId, modelId, partId } = await params;
+  const category = await findCategory(locale, categoryId);
+  const model = category?.models.find((m) => m.id === modelId);
+  const part = model?.parts.find((p) => p.id === partId);
+  if (!category || !model || !part) notFound();
 
-export default function PartPage() {
-  const params = useParams();
-  const categoryId = params.categoryId as string;
-  const modelId = params.modelId as string;
-  const partId = params.partId as string;
-  const locale = useLocale();
-  const t = useTranslations('catalog');
-  const tMsg = useTranslations('contactMessage');
+  const tNav = await getTranslations({ locale, namespace: 'navigation' });
+  const modelName = `${model.brand} ${model.designation}`.trim();
+  const base = `${BASE_URL}/${locale}`;
+  const url = `${base}/categories/${category.id}/${model.id}/${part.id}`;
 
-  const [category, setCategory] = useState<Category | null>(null);
-  const [model, setModel] = useState<Model | null>(null);
-  const [part, setPart] = useState<Part | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const response = await fetch(`/api/catalog?locale=${locale}`);
-        if (response.ok) {
-          const data = await response.json();
-          const foundCat = data.categories?.find((c: Category) => c.id === categoryId);
-          setCategory(foundCat || null);
-          const foundModel = foundCat?.models?.find((m: Model) => m.id === modelId);
-          setModel(foundModel || null);
-          const foundPart = foundModel?.parts?.find((p: Part) => p.id === partId);
-          setPart(foundPart || null);
-        }
-      } catch (error) {
-        console.error('Error loading part:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, [categoryId, modelId, partId, locale]);
-
-  if (loading) {
-    return (
-      <>
-        <Navigation />
-        <main className="min-h-[70vh] flex items-center justify-center">
-          <Spinner color="primary" />
-        </main>
-      </>
-    );
-  }
-
-  if (!category || !model || !part) {
-    notFound();
-  }
-
-  const contactMessage = `${tMsg('greeting')}\n\n${tMsg('interested')}\n\n${tMsg('partLabel')}: ${part.name}\n${tMsg('modelLabel')}: ${model.brand} ${model.designation}\n${tMsg('categoryLabel')}: ${category.name}\n\n${tMsg('pleaseContact')}\n\n${tMsg('regards')}`;
-
-  const specs = [
-    { label: t('category'), value: category.name, href: `/${locale}/categories/${category.id}` },
-    { label: t('model'), value: `${model.brand} ${model.designation}`, href: `/${locale}/categories/${category.id}/${model.id}` },
-    { label: t('price'), value: part.price || t('onRequest') },
-  ];
+  // Structured data: tells Google this page is a product and where it sits in the catalog
+  const product = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: part.name,
+    description: part.description,
+    url,
+    ...(part.image ? { image: [part.image] } : {}),
+    sku: part.id,
+    brand: { '@type': 'Brand', name: 'Tornado Racing Cams' },
+    category: `${category.name} > ${modelName}`,
+    isRelatedTo: { '@type': 'Product', name: modelName },
+  };
+  const breadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { name: tNav('home'), item: base },
+      { name: tNav('catalog'), item: `${base}/categories` },
+      { name: category.name, item: `${base}/categories/${category.id}` },
+      { name: modelName, item: `${base}/categories/${category.id}/${model.id}` },
+      { name: part.name, item: url },
+    ].map((entry, i) => ({ '@type': 'ListItem', position: i + 1, ...entry })),
+  };
 
   return (
     <>
-      <Navigation />
-      <main>
-        <Breadcrumb
-          items={[
-            { label: t('title'), href: `/${locale}/categories` },
-            { label: category.name, href: `/${locale}/categories/${category.id}` },
-            {
-              label: `${model.brand} ${model.designation}`,
-              href: `/${locale}/categories/${category.id}/${model.id}`,
-            },
-            { label: part.name },
-          ]}
-        />
-
-        <section className="pt-6 pb-20">
-          <div className="container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="lg:col-span-7">
-              <PartImage
-                src={part.image}
-                alt={part.name}
-                priority
-                sizes="(min-width: 1024px) 58vw, 100vw"
-                className="aspect-[4/3] w-full border border-secondary/10"
-              />
-            </div>
-
-            <div className="lg:col-span-5 flex flex-col">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-secondary/50 mb-4">
-                <span className="inline-block w-6 h-px bg-primary align-middle mr-3" />
-                {model.brand} {model.designation}
-              </p>
-              <h1 className="font-display font-bold uppercase text-5xl md:text-6xl leading-[0.95] tracking-tight mb-5 text-balance">
-                {part.name}
-              </h1>
-              {part.description && (
-                <p className="text-lg text-secondary/75 leading-relaxed mb-8 whitespace-pre-line">{part.description}</p>
-              )}
-
-              <dl className="border-t border-secondary/15 mb-8">
-                {specs.map((spec) => (
-                  <div key={spec.label} className="grid grid-cols-[8rem_1fr] gap-4 py-3 border-b border-secondary/15">
-                    <dt className="font-mono text-[11px] uppercase tracking-[0.15em] text-secondary/50 pt-1">{spec.label}</dt>
-                    <dd className="font-medium">
-                      {spec.href ? (
-                        <Link href={spec.href} className="hover:text-primary transition-colors">
-                          {spec.value}
-                        </Link>
-                      ) : (
-                        spec.value
-                      )}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  as={Link}
-                  href={`/${locale}/contact?message=${encodeURIComponent(contactMessage)}`}
-                  color="primary"
-                  size="lg"
-                  radius="sm"
-                  endContent={<ArrowRight size={18} />}
-                  className="font-semibold px-7"
-                >
-                  {t('interestedContact')}
-                </Button>
-                <Button
-                  as={Link}
-                  href={`/${locale}/categories/${category.id}/${model.id}`}
-                  variant="bordered"
-                  size="lg"
-                  radius="sm"
-                  startContent={<ArrowLeft size={18} />}
-                  className="font-semibold border-1 border-secondary/25 text-secondary"
-                >
-                  {t('backToParts')}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(product)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(breadcrumbs)} />
+      <PartView category={category} model={model} part={part} />
     </>
   );
 }

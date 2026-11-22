@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
+import { metaDescription } from '@/lib/catalog-server';
 
 const BASE_URL = 'https://tornado-racing-moto.vercel.app';
 
@@ -41,8 +42,8 @@ export async function generateMetadata({
   const description = getDescription(locale as Locale);
 
   return {
-    title: name,
-    description: description || `${name} - Motorradteile bei Tornado Racing Moto`,
+    title: { absolute: `${name} | Tornado Racing Moto` },
+    description: metaDescription(description, `${name} – Teile bei Tornado Racing Moto`),
     alternates: {
       canonical: `${BASE_URL}/${locale}/categories/${categoryId}`,
       languages: {

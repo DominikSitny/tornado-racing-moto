@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
+import { metaDescription } from '@/lib/catalog-server';
 
 const BASE_URL = 'https://tornado-racing-moto.vercel.app';
 
@@ -48,11 +49,17 @@ export async function generateMetadata({
   const description = getDescription(locale as Locale);
   const modelName = model ? `${model.brand} ${model.designation}` : '';
 
-  const metaTitle = modelName ? `${name} - ${modelName}` : name;
+  const metaTitle = modelName ? `${name} – ${modelName}` : name;
+  const fallback: Record<Locale, string> = {
+    de: `${name} für ${modelName} – Speedway-Teil von Tornado Racing Moto.`,
+    en: `${name} for ${modelName} – speedway part from Tornado Racing Moto.`,
+    pl: `${name} do ${modelName} – część żużlowa od Tornado Racing Moto.`,
+  };
+  const desc = metaDescription(description ? `${modelName}: ${description}` : null, fallback[locale as Locale] ?? fallback.de);
 
   return {
-    title: metaTitle,
-    description: description || `${name} für ${modelName} - Tornado Racing Moto`,
+    title: { absolute: `${metaTitle} | Tornado Racing Moto` },
+    description: desc,
     alternates: {
       canonical: `${BASE_URL}/${locale}/categories/${categoryId}/${modelId}/${partId}`,
       languages: {
@@ -63,7 +70,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: metaTitle,
-      description: description || `${name} für ${modelName}`,
+      description: desc,
       images: part.image ? [{ url: part.image, alt: name }] : undefined,
     },
   };

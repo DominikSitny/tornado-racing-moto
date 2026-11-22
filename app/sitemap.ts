@@ -32,14 +32,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { data: categories } = await supabase
       .from('categories')
-      .select('id, updated_at');
+      .select('id, created_at');
 
     if (categories) {
       for (const category of categories) {
         for (const locale of locales) {
           entries.push({
             url: `${BASE_URL}/${locale}/categories/${category.id}`,
-            lastModified: category.updated_at ? new Date(category.updated_at) : new Date(),
+            lastModified: category.created_at ? new Date(category.created_at) : new Date(),
             changeFrequency: 'weekly',
             priority: 0.7,
             alternates: {
@@ -57,14 +57,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Dynamic model pages
     const { data: models } = await supabase
       .from('models')
-      .select('id, category_id, updated_at');
+      .select('id, category_id, created_at');
 
     if (models) {
       for (const model of models) {
         for (const locale of locales) {
           entries.push({
             url: `${BASE_URL}/${locale}/categories/${model.category_id}/${model.id}`,
-            lastModified: model.updated_at ? new Date(model.updated_at) : new Date(),
+            lastModified: model.created_at ? new Date(model.created_at) : new Date(),
             changeFrequency: 'weekly',
             priority: 0.6,
             alternates: {
@@ -82,7 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Dynamic part pages
     const { data: parts } = await supabase
       .from('parts')
-      .select('id, model_id, updated_at');
+      .select('id, model_id, created_at');
 
     if (parts && models) {
       for (const part of parts) {
@@ -91,7 +91,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           for (const locale of locales) {
             entries.push({
               url: `${BASE_URL}/${locale}/categories/${model.category_id}/${model.id}/${part.id}`,
-              lastModified: part.updated_at ? new Date(part.updated_at) : new Date(),
+              lastModified: part.created_at ? new Date(part.created_at) : new Date(),
               changeFrequency: 'monthly',
               priority: 0.5,
               alternates: {

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
+import { metaDescription } from '@/lib/catalog-server';
 
 const BASE_URL = 'https://tornado-racing-moto.vercel.app';
 
@@ -35,14 +36,15 @@ export async function generateMetadata({
   const description = getDescription(locale as Locale);
 
   const metaDescriptions: Record<Locale, string> = {
-    de: `Ersatzteile und Zubehör für ${title}. Hochwertige Komponenten bei Tornado Racing Moto.`,
-    en: `Spare parts and accessories for ${title}. High-quality components at Tornado Racing Moto.`,
-    pl: `Części zamienne i akcesoria do ${title}. Komponenty wysokiej jakości w Tornado Racing Moto.`,
+    de: `Tornado-Teile für ${title}: Nockenwellen, Ventile, Ventilfedern, Kolben, Pleuel und Zündungen. Preise auf Anfrage.`,
+    en: `Tornado parts for ${title}: camshafts, valves, valve springs, pistons, con rods and ignitions. Prices on request.`,
+    pl: `Części Tornado do ${title}: krzywki, zawory, sprężyny zaworowe, tłoki, korbowody i zapłony. Ceny na zapytanie.`,
   };
+  const desc = metaDescription(metaDescriptions[locale as Locale] ?? metaDescriptions.de, description || '');
 
   return {
-    title: title,
-    description: description || metaDescriptions[locale as Locale] || metaDescriptions.de,
+    title: { absolute: `${title} | Tornado Racing Moto` },
+    description: desc,
     alternates: {
       canonical: `${BASE_URL}/${locale}/categories/${categoryId}/${modelId}`,
       languages: {
@@ -53,7 +55,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: title,
-      description: description || metaDescriptions[locale as Locale] || metaDescriptions.de,
+      description: desc,
     },
   };
 }

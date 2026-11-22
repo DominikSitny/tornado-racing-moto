@@ -28,16 +28,19 @@ const BASE_URL = 'https://tornado-racing-moto.vercel.app';
 
 const localeMetadata: Record<string, { title: string; description: string }> = {
   de: {
-    title: 'Tornado Racing Moto - Motorradteile & Zubehör',
-    description: 'Hochwertige Motorradkomponenten und Zubehör für alle Marken. Ersatzteile, Performance-Parts und Zubehör für Motorräder. Schnelle Lieferung.',
+    title: 'Tornado Racing Moto – Nockenwellen & Speedway-Motorteile',
+    description:
+      'Tornado-Nockenwellen, Ventile, Ventilfedern, Kolben, Pleuel und PVL-Zündungen für Speedway-Motoren von Jawa und GM. Beratung auf Deutsch, Englisch und Polnisch, Versand in die EU.',
   },
   en: {
-    title: 'Tornado Racing Moto - Motorcycle Parts & Accessories',
-    description: 'High-quality motorcycle components and accessories for all brands. Spare parts, performance parts and accessories for motorcycles. Fast delivery.',
+    title: 'Tornado Racing Moto – Camshafts & Speedway Engine Parts',
+    description:
+      'Tornado camshafts, valves, valve springs, pistons, con rods and PVL ignitions for Jawa and GM speedway engines. Support in German, English and Polish, shipping within the EU.',
   },
   pl: {
-    title: 'Tornado Racing Moto - Części Motocyklowe i Akcesoria',
-    description: 'Wysokiej jakości części i akcesoria motocyklowe dla wszystkich marek. Części zamienne, części sportowe i akcesoria. Szybka dostawa.',
+    title: 'Tornado Racing Moto – Wałki rozrządu i części silników żużlowych',
+    description:
+      'Krzywki Tornado, zawory, sprężyny zaworowe, tłoki, korbowody i zapłony PVL do silników żużlowych Jawa i GM. Obsługa po polsku, niemiecku i angielsku, wysyłka w UE.',
   },
 };
 
@@ -50,7 +53,7 @@ export async function generateMetadata({
   const meta = localeMetadata[locale] || localeMetadata.de;
 
   return {
-    title: meta.title,
+    title: { default: meta.title, template: '%s | Tornado Racing Moto' },
     description: meta.description,
     alternates: {
       canonical: `${BASE_URL}/${locale}`,
