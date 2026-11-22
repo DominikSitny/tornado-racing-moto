@@ -2,141 +2,134 @@
 
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import Breadcrumb from '@/components/Breadcrumb';
-import { Button, Card, CardBody } from '@nextui-org/react';
-import { Award, Users, Wrench, Heart, ArrowRight } from 'lucide-react';
+import PageHeader from '@/components/PageHeader';
+import PhotoSlot from '@/components/PhotoSlot';
+import { siteImages } from '@/lib/site-images';
+import { Button } from '@nextui-org/react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
+
+function SectionIndex({ index }: { index: string }) {
+  return (
+    <p className="font-mono text-xs tracking-[0.2em] text-primary flex items-center gap-3">
+      {index}
+      <span className="inline-block w-6 h-px bg-secondary/20" />
+    </p>
+  );
+}
 
 export default function AboutPage() {
   const locale = useLocale();
   const t = useTranslations('about');
+  const tHome = useTranslations('home');
   const tNav = useTranslations('navigation');
 
-  const values = [
-    {
-      icon: Award,
-      title: t('quality'),
-      description: t('qualityText'),
-      gradient: 'from-primary to-red-500',
-    },
-    {
-      icon: Users,
-      title: t('expertise'),
-      description: t('expertiseText'),
-      gradient: 'from-secondary to-blue-700',
-    },
-    {
-      icon: Wrench,
-      title: t('service'),
-      description: t('serviceText'),
-      gradient: 'from-green-500 to-emerald-600',
-    },
-    {
-      icon: Heart,
-      title: t('trust'),
-      description: t('trustText'),
-      gradient: 'from-orange-500 to-amber-600',
-    },
+  const principles = [
+    { title: t('quality'), text: t('qualityText') },
+    { title: t('expertise'), text: t('expertiseText') },
+    { title: t('service'), text: t('serviceText') },
+  ];
+
+  const facts = [
+    { label: tHome('factShipping'), value: tHome('factShippingValue') },
+    { label: tHome('factLanguages'), value: tHome('factLanguagesValue') },
+    { label: tHome('factPrices'), value: tHome('factPricesValue') },
   ];
 
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gray-50">
-        <Breadcrumb
-          items={[
-            { label: tNav('about') },
-          ]}
-        />
+      <main>
+        <PageHeader
+          breadcrumb={[{ label: tNav('about') }]}
+          eyebrow={t('title')}
+          title="Tornado Racing Moto"
+          lead={t('lead')}
+        >
+          <dl className="grid sm:grid-cols-3 mt-10 border-t border-secondary/10">
+            {facts.map((fact, i) => (
+              <div
+                key={fact.label}
+                className={`pt-5 pb-1 sm:pr-6 ${i > 0 ? 'sm:pl-6 sm:border-l border-secondary/10 max-sm:border-t max-sm:mt-5' : ''}`}
+              >
+                <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-secondary/50 mb-1">{fact.label}</dt>
+                <dd className="font-medium">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </PageHeader>
 
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-secondary via-blue-900 to-secondary text-white py-20 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-40 -right-40 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px]"></div>
-            <div className="absolute -bottom-40 -left-40 w-[300px] h-[300px] bg-blue-500/20 rounded-full blur-[100px]"></div>
-          </div>
-
-          <div className="container relative z-10 mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('title')}</h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              {t('subtitle')}
-            </p>
-          </div>
-        </section>
-
-        {/* Story Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <Card className="border-none shadow-xl">
-                <CardBody className="p-8 md:p-12">
-                  <h2 className="text-3xl font-bold text-secondary mb-6">{t('story')}</h2>
-                  <p className="text-gray-600 text-lg leading-relaxed">
-                    {t('storyText')}
-                  </p>
-                </CardBody>
-              </Card>
+        {/* Story & mission */}
+        <section className="py-16 md:py-24">
+          <div className="container grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="lg:col-span-5 lg:order-2">
+              <PhotoSlot src={siteImages.workshop} alt={t('workshopAlt')} hint="workshop.jpg" figure={1} className="aspect-[4/5] w-full" />
+            </div>
+            <div className="lg:col-span-7 lg:order-1 space-y-12">
+              <div>
+                <SectionIndex index="01" />
+                <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3 mb-5">{t('story')}</h2>
+                <p className="text-lg text-secondary/75 leading-relaxed max-w-2xl">{t('storyText')}</p>
+              </div>
+              <div>
+                <SectionIndex index="02" />
+                <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3 mb-5">{t('mission')}</h2>
+                <p className="text-lg text-secondary/75 leading-relaxed max-w-2xl">{t('missionText')}</p>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Mission Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-secondary mb-6">{t('mission')}</h2>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                {t('missionText')}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Values Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-secondary mb-12 text-center">{t('values')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-              {values.map((value, index) => (
-                <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
-                  <CardBody className="p-6 text-center">
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${value.gradient} flex items-center justify-center mx-auto mb-4 text-white shadow-lg`}>
-                      <value.icon size={28} />
-                    </div>
-                    <h3 className="text-xl font-bold text-secondary mb-3">{value.title}</h3>
-                    <p className="text-gray-600">{value.description}</p>
-                  </CardBody>
-                </Card>
+        {/* Principles */}
+        <section className="bg-gray-50 border-y border-secondary/10 py-16 md:py-24">
+          <div className="container">
+            <SectionIndex index="03" />
+            <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3 mb-10">{t('principles')}</h2>
+            <ol className="grid md:grid-cols-3 border-t border-secondary/15">
+              {principles.map((item, i) => (
+                <li
+                  key={item.title}
+                  className={`py-8 md:pr-8 ${i > 0 ? 'border-t md:border-t-0 md:border-l md:pl-8 border-secondary/15' : ''}`}
+                >
+                  <span className="font-mono text-sm text-primary">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className="font-display font-semibold uppercase text-2xl tracking-tight mt-3 mb-2">{item.title}</h3>
+                  <p className="text-secondary/70 leading-relaxed">{item.text}</p>
+                </li>
               ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Team */}
+        <section className="py-16 md:py-24">
+          <div className="container grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div className="lg:col-span-7">
+              <PhotoSlot src={siteImages.team} alt={t('teamAlt')} hint="team.jpg" figure={2} className="aspect-[16/10] w-full" />
+            </div>
+            <div className="lg:col-span-5">
+              <SectionIndex index="04" />
+              <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3 mb-5">{t('team')}</h2>
+              <p className="text-lg text-secondary/75 leading-relaxed">{t('teamText')}</p>
             </div>
           </div>
         </section>
 
-        {/* Team Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-secondary mb-6">{t('team')}</h2>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                {t('teamText')}
-              </p>
+        {/* CTA */}
+        <section className="bg-secondary text-white">
+          <div className="container py-14 md:py-16 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+            <div>
+              <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight">{t('ctaTitle')}</h2>
+              <p className="text-white/70 mt-3 text-lg max-w-xl">{t('ctaText')}</p>
             </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-br from-secondary via-blue-900 to-secondary text-white">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-6">{t('contactCta')}</h2>
             <Button
               as={Link}
               href={`/${locale}/contact`}
+              color="primary"
               size="lg"
-              radius="full"
-              variant="shadow"
-              endContent={<ArrowRight size={20} />}
-              className="font-bold text-lg px-10 h-14 bg-white text-secondary hover:bg-gray-100"
+              radius="sm"
+              endContent={<ArrowRight size={18} />}
+              className="font-semibold px-7 shrink-0 self-start md:self-auto"
             >
               {t('contactButton')}
             </Button>

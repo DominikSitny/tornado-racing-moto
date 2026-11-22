@@ -3,15 +3,15 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
-import { Globe } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const languages = [
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'pl', label: 'Polski', flag: '🇵🇱' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'en', label: 'English' },
+  { code: 'pl', label: 'Polski' },
 ];
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ inverted = false }: { inverted?: boolean }) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -22,18 +22,18 @@ export default function LanguageSwitcher() {
     router.push(`/${newLocale}${pathWithoutLocale}`);
   };
 
-  const currentLanguage = languages.find((l) => l.code === locale) || languages[0];
-
   return (
-    <Dropdown>
+    <Dropdown radius="sm">
       <DropdownTrigger>
         <Button
           variant="light"
           size="sm"
-          startContent={<Globe size={16} />}
-          className="text-secondary min-w-0 px-2"
+          radius="sm"
+          endContent={<ChevronDown size={14} />}
+          className={`font-mono text-xs uppercase tracking-widest min-w-0 px-2 ${inverted ? 'text-white' : 'text-secondary'}`}
+          aria-label="Sprache / Language / Język"
         >
-          <span className="hidden sm:inline">{currentLanguage.flag}</span>
+          {locale}
         </Button>
       </DropdownTrigger>
       <DropdownMenu
@@ -43,7 +43,10 @@ export default function LanguageSwitcher() {
         selectionMode="single"
       >
         {languages.map((lang) => (
-          <DropdownItem key={lang.code} startContent={<span>{lang.flag}</span>}>
+          <DropdownItem
+            key={lang.code}
+            startContent={<span className="font-mono text-xs uppercase w-6 text-secondary/50">{lang.code}</span>}
+          >
             {lang.label}
           </DropdownItem>
         ))}

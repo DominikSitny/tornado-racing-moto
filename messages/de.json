@@ -7,23 +7,32 @@
     "sendInquiry": "Anfrage senden"
   },
   "home": {
-    "badge": "Premium Motorradteile",
-    "title": "Willkommen bei",
-    "brandName": "Tornado Racing Moto",
-    "subtitle": "Deine Quelle für hochwertige Motorradkomponenten und Zubehör. Entdecke unseren umfangreichen Produktkatalog.",
+    "eyebrow": "Tornado Racing Cams",
+    "title": "Nockenwellen und Motorteile für Rennsport und Straße",
+    "subtitle": "Nenn uns Hersteller, Modell und Baujahr. Wir prüfen, welches Teil passt, und schicken dir ein Angebot.",
     "toCatalog": "Zum Katalog",
     "contactUs": "Kontakt aufnehmen",
-    "fastDelivery": "Schnelle Lieferung",
-    "fastDeliveryDesc": "Expressversand für alle Bestellungen innerhalb Deutschlands.",
-    "qualityGuarantee": "Qualitätsgarantie",
-    "qualityGuaranteeDesc": "Nur Original-Ersatzteile von geprüften Herstellern.",
-    "expertSupport": "Experten-Support",
-    "expertSupportDesc": "Unser Team hilft dir bei der Auswahl der richtigen Teile.",
-    "productCatalog": "Produktkatalog",
-    "ourCatalog": "Unser Katalog",
-    "catalogDesc": "Entdecke unser breites Sortiment an Motorradteilen und Zubehör",
-    "questionsTitle": "Fragen oder Probleme?",
-    "questionsDesc": "Kontaktiere uns für weitere Informationen oder spezielle Anfragen. Wir helfen dir gerne!"
+    "heroAlt": "Nockenwelle",
+    "workshopAlt": "Werkstatt von Tornado Racing Moto",
+    "factShipping": "Versand",
+    "factShippingValue": "Deutschland · Polen · EU",
+    "factLanguages": "Beratung",
+    "factLanguagesValue": "Deutsch · English · Polski",
+    "factPrices": "Preise",
+    "factPricesValue": "Individuelles Angebot auf Anfrage",
+    "catalogLabel": "Katalog",
+    "ourCatalog": "Teile nach Kategorie",
+    "catalogDesc": "Wähle eine Kategorie, dann dein Modell und das passende Teil.",
+    "viewAll": "Ganzen Katalog ansehen",
+    "processLabel": "Ablauf",
+    "processTitle": "So läuft eine Anfrage",
+    "step1Title": "Teil auswählen",
+    "step1Desc": "Such dein Modell im Katalog oder beschreib uns, was du brauchst.",
+    "step2Title": "Anfrage senden",
+    "step2Desc": "Schick uns Hersteller, Modell, Baujahr und – falls vorhanden – die Teilenummer.",
+    "step3Title": "Angebot erhalten",
+    "step3Desc": "Wir prüfen Passform und Verfügbarkeit und melden uns mit Preis und Lieferzeit.",
+    "processCta": "Anfrage senden"
   },
   "catalog": {
     "title": "Katalog",
@@ -40,11 +49,14 @@
     "showDetails": "Details anzeigen",
     "backToParts": "Zurück zu Teilen",
     "category": "Kategorie",
-    "interestedContact": "Interesse? Kontaktiere uns"
+    "interestedContact": "Anfrage zu diesem Teil",
+    "noCategories": "Der Katalog wird gerade aktualisiert. Bitte schau später noch einmal vorbei oder kontaktiere uns direkt.",
+    "price": "Preis",
+    "lead": "Wähle eine Kategorie, dann dein Modell und das passende Teil."
   },
   "contact": {
-    "title": "Kontaktiere uns",
-    "subtitle": "Hast du Fragen zu unseren Produkten oder möchtest du mehr über uns erfahren? Fülle einfach das Formular aus und wir werden dir bald antworten.",
+    "title": "Kontakt",
+    "subtitle": "Fragen zu einem Teil oder eine konkrete Anfrage? Schreib uns – wir antworten so schnell wie möglich.",
     "name": "Name",
     "email": "E-Mail",
     "message": "Nachricht",
@@ -52,13 +64,27 @@
     "sending": "Wird gesendet...",
     "success": "Nachricht erfolgreich gesendet!",
     "error": "Fehler beim Senden. Bitte versuche es erneut.",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "namePlaceholder": "Max Mustermann",
+    "emailPlaceholder": "max@beispiel.de",
+    "messagePlaceholder": "Wie können wir dir helfen?",
+    "formTitle": "Nachricht schreiben",
+    "detailsTitle": "Direkt erreichen",
+    "hintTitle": "Damit wir schnell antworten können",
+    "hint1": "Hersteller und Modell",
+    "hint2": "Baujahr",
+    "hint3": "Teilenummer, falls vorhanden",
+    "required": "Bitte ausfüllen.",
+    "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein."
   },
   "breadcrumb": {
     "home": "Home"
   },
   "footer": {
-    "copyright": "© 2024 Tornado Racing Moto. Alle Rechte vorbehalten."
+    "copyright": "© {year} Tornado Racing Moto. Alle Rechte vorbehalten.",
+    "tagline": "Nockenwellen und Motorteile für Rennsport und Straße.",
+    "pages": "Seiten",
+    "contact": "Kontakt"
   },
   "contactMessage": {
     "greeting": "Hallo,",
@@ -76,18 +102,21 @@
     "storyText": "Tornado Racing Moto wurde aus der Leidenschaft für Motorräder und dem Wunsch geboren, Fahrern hochwertige Teile und Zubehör anzubieten. Was als kleines Projekt begann, ist heute ein vertrauenswürdiger Partner für Motorradenthusiasten in ganz Europa.",
     "mission": "Unsere Mission",
     "missionText": "Wir streben danach, jedem Kunden die besten Motorradteile zu fairen Preisen anzubieten. Qualität, Zuverlässigkeit und erstklassiger Kundenservice stehen bei uns an erster Stelle.",
-    "values": "Unsere Werte",
     "quality": "Qualität",
-    "qualityText": "Wir bieten nur geprüfte Originalteile von renommierten Herstellern an.",
+    "qualityText": "Wir bieten nur geprüfte Teile an, deren Herkunft wir kennen.",
     "expertise": "Expertise",
     "expertiseText": "Unser Team besteht aus erfahrenen Motorradexperten, die dich kompetent beraten.",
     "service": "Service",
     "serviceText": "Schnelle Lieferung, einfache Rückgabe und persönlicher Support sind für uns selbstverständlich.",
-    "trust": "Vertrauen",
-    "trustText": "Tausende zufriedene Kunden vertrauen auf unsere Produkte und unseren Service.",
     "team": "Unser Team",
     "teamText": "Hinter Tornado Racing Moto steht ein engagiertes Team von Motorrad-Enthusiasten, die ihre Leidenschaft zum Beruf gemacht haben.",
     "contactCta": "Hast du Fragen? Kontaktiere uns!",
-    "contactButton": "Kontakt aufnehmen"
+    "contactButton": "Kontakt aufnehmen",
+    "lead": "Motorradteile, Beratung und individuelle Angebote – auf Deutsch, Englisch und Polnisch.",
+    "principles": "Worauf du dich verlassen kannst",
+    "ctaTitle": "Du suchst ein bestimmtes Teil?",
+    "ctaText": "Schick uns Hersteller, Modell und Baujahr – wir melden uns mit einem Angebot.",
+    "workshopAlt": "Werkstatt von Tornado Racing Moto",
+    "teamAlt": "Das Team von Tornado Racing Moto"
   }
 }

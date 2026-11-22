@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { Input, Textarea, Button, Card, CardBody } from '@nextui-org/react';
-import { User, Mail, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import { Input, Textarea, Button } from '@nextui-org/react';
+import { Send, CheckCircle } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface FormState {
@@ -47,18 +47,18 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Required';
+      newErrors.name = t('required');
     }
     if (!formData.email.trim()) {
-      newErrors.email = 'Required';
+      newErrors.email = t('required');
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
-        newErrors.email = 'Invalid email';
+        newErrors.email = t('invalidEmail');
       }
     }
     if (!formData.message.trim()) {
-      newErrors.message = 'Required';
+      newErrors.message = t('required');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -94,21 +94,16 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto shadow-2xl border-none bg-white/90 backdrop-blur-lg">
-      <CardBody className="p-8 md:p-10">
+    <div>
         {submitted && (
-          <div className="mb-8 p-5 bg-success-50 border border-success-200 rounded-2xl flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-success flex items-center justify-center flex-shrink-0">
-              <CheckCircle size={20} className="text-white" />
-            </div>
-            <div>
-              <h3 className="font-bold text-success-700 mb-1">{t('success')}</h3>
-            </div>
+          <div role="status" className="mb-8 p-5 border-l-2 border-success bg-success-50 flex items-center gap-3">
+            <CheckCircle size={20} className="text-success shrink-0" />
+            <p className="font-semibold text-success-700">{t('success')}</p>
           </div>
         )}
 
         {errors.form && (
-          <div className="mb-8 p-5 bg-danger-50 border border-danger-200 rounded-2xl">
+          <div role="alert" className="mb-8 p-5 border-l-2 border-danger bg-danger-50">
             <p className="text-danger-700 font-medium">{errors.form}</p>
           </div>
         )}
@@ -116,75 +111,69 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             label={t('name')}
-            placeholder="..."
+            placeholder={t('namePlaceholder')}
             value={formData.name}
             onValueChange={(value) => handleChange('name', value)}
             isInvalid={!!errors.name}
             errorMessage={errors.name}
-            startContent={<User size={18} className="text-gray-400" />}
             variant="bordered"
-            radius="lg"
+            radius="sm"
             size="lg"
             classNames={{
-              label: 'text-secondary font-semibold',
-              input: 'text-secondary',
-              inputWrapper: 'border-gray-200 hover:border-primary focus-within:!border-primary',
+              label: 'font-mono text-[11px] uppercase tracking-[0.15em] text-secondary/60',
+              input: 'text-secondary placeholder:text-gray-400',
+              inputWrapper: 'border-1 border-secondary/20 shadow-none hover:!border-secondary/40 group-data-[focus=true]:!border-secondary',
             }}
           />
 
           <Input
             type="email"
             label={t('email')}
-            placeholder="email@example.com"
+            placeholder={t('emailPlaceholder')}
             value={formData.email}
             onValueChange={(value) => handleChange('email', value)}
             isInvalid={!!errors.email}
             errorMessage={errors.email}
-            startContent={<Mail size={18} className="text-gray-400" />}
             variant="bordered"
-            radius="lg"
+            radius="sm"
             size="lg"
             classNames={{
-              label: 'text-secondary font-semibold',
-              input: 'text-secondary',
-              inputWrapper: 'border-gray-200 hover:border-primary focus-within:!border-primary',
+              label: 'font-mono text-[11px] uppercase tracking-[0.15em] text-secondary/60',
+              input: 'text-secondary placeholder:text-gray-400',
+              inputWrapper: 'border-1 border-secondary/20 shadow-none hover:!border-secondary/40 group-data-[focus=true]:!border-secondary',
             }}
           />
 
           <Textarea
             label={t('message')}
-            placeholder="..."
+            placeholder={t('messagePlaceholder')}
             value={formData.message}
             onValueChange={(value) => handleChange('message', value)}
             isInvalid={!!errors.message}
             errorMessage={errors.message}
-            startContent={<MessageSquare size={18} className="text-gray-400 mt-2" />}
             variant="bordered"
-            radius="lg"
+            radius="sm"
             size="lg"
             minRows={5}
             classNames={{
-              label: 'text-secondary font-semibold',
-              input: 'text-secondary',
-              inputWrapper: 'border-gray-200 hover:border-primary focus-within:!border-primary',
+              label: 'font-mono text-[11px] uppercase tracking-[0.15em] text-secondary/60',
+              input: 'text-secondary placeholder:text-gray-400',
+              inputWrapper: 'border-1 border-secondary/20 shadow-none hover:!border-secondary/40 group-data-[focus=true]:!border-secondary',
             }}
           />
 
           <Button
             type="submit"
             color="primary"
-            variant="shadow"
             size="lg"
-            radius="lg"
-            fullWidth
+            radius="sm"
             isLoading={isLoading}
-            startContent={!isLoading && <Send size={20} />}
-            className="font-bold text-lg h-14 bg-gradient-to-r from-primary to-red-500"
+            endContent={!isLoading && <Send size={18} />}
+            className="font-semibold px-8"
           >
             {isLoading ? t('sending') : t('send')}
           </Button>
         </form>
-      </CardBody>
-    </Card>
+    </div>
   );
 }

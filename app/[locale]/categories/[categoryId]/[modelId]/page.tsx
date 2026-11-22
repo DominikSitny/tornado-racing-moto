@@ -5,8 +5,8 @@ import { notFound, useParams } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PartCard from '@/components/PartCard';
-import Breadcrumb from '@/components/Breadcrumb';
-import { Chip, Spinner } from '@nextui-org/react';
+import PageHeader from '@/components/PageHeader';
+import { Spinner } from '@nextui-org/react';
 import { Category, Model } from '@/lib/types';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -39,14 +39,14 @@ export default function ModelPage() {
       }
     }
     loadData();
-  }, [categoryId, modelId]);
+  }, [categoryId, modelId, locale]);
 
   if (loading) {
     return (
       <>
         <Navigation />
-        <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <Spinner size="lg" color="primary" />
+        <main className="min-h-[70vh] flex items-center justify-center">
+          <Spinner color="primary" />
         </main>
       </>
     );
@@ -59,49 +59,35 @@ export default function ModelPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gray-50">
-        <Breadcrumb
-          items={[
+      <main>
+        <PageHeader
+          breadcrumb={[
             { label: t('title'), href: `/${locale}/categories` },
             { label: category.name, href: `/${locale}/categories/${category.id}` },
             { label: `${model.brand} ${model.designation}` },
           ]}
+          eyebrow={category.name}
+          title={`${model.brand} ${model.designation}`.trim()}
+          lead={model.description || undefined}
         />
 
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="mb-10">
-              <Chip
-                color="primary"
-                variant="shadow"
-                size="lg"
-                className="mb-4 bg-gradient-to-r from-primary to-red-500"
-              >
-                {model.brand}
-              </Chip>
-              <h1 className="text-5xl font-bold text-secondary mb-4">
-                {model.designation}
-              </h1>
-              <p className="text-lg text-gray-600 max-w-3xl">
-                {model.description}
-              </p>
+        <section className="py-12 md:py-16 pb-20">
+          <div className="container">
+            <div className="flex items-baseline justify-between gap-4 mb-6">
+              <h2 className="font-display font-bold uppercase text-3xl tracking-tight">{t('availableParts')}</h2>
+              <span className="font-mono text-xs uppercase tracking-[0.15em] text-secondary/50">
+                {model.parts.length} {model.parts.length === 1 ? t('part') : t('parts')}
+              </span>
             </div>
 
-            <h2 className="text-2xl font-bold text-secondary mb-6">{t('availableParts')}</h2>
-
             {model.parts.length === 0 ? (
-              <p className="text-gray-500 text-center py-12">
+              <div className="border border-dashed border-secondary/20 px-6 py-10 text-secondary/70">
                 {t('noPartsAvailable')}
-              </p>
+              </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-l border-t border-secondary/15">
                 {model.parts.map((part) => (
-                  <PartCard
-                    key={part.id}
-                    part={part}
-                    categoryId={categoryId}
-                    modelId={model.id}
-                  />
+                  <PartCard key={part.id} part={part} categoryId={categoryId} modelId={model.id} />
                 ))}
               </div>
             )}

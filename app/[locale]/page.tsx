@@ -1,19 +1,29 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button, Card, CardBody, Chip, Spinner } from '@nextui-org/react';
+import { Button, Spinner } from '@nextui-org/react';
 import Link from 'next/link';
-import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CategoryCard from '@/components/CategoryCard';
+import PhotoSlot from '@/components/PhotoSlot';
+import { siteImages } from '@/lib/site-images';
 import { Category } from '@/lib/types';
-import { ArrowRight, Zap, Shield, Wrench, Star, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
+
+function SectionLabel({ index, children, light }: { index: string; children: React.ReactNode; light?: boolean }) {
+  return (
+    <p className={`font-mono text-xs uppercase tracking-[0.2em] ${light ? 'text-white/60' : 'text-secondary/50'}`}>
+      <span className="text-primary">{index}</span> / {children}
+    </p>
+  );
+}
 
 export default function Home() {
   const locale = useLocale();
   const t = useTranslations('home');
+  const tCatalog = useTranslations('catalog');
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,56 +42,47 @@ export default function Home() {
       }
     }
     loadData();
-  }, []);
+  }, [locale]);
+
+  const facts = [
+    { label: t('factShipping'), value: t('factShippingValue') },
+    { label: t('factLanguages'), value: t('factLanguagesValue') },
+    { label: t('factPrices'), value: t('factPricesValue') },
+  ];
+
+  const steps = [
+    { title: t('step1Title'), desc: t('step1Desc') },
+    { title: t('step2Title'), desc: t('step2Desc') },
+    { title: t('step3Title'), desc: t('step3Desc') },
+  ];
 
   return (
     <>
       <Navigation />
-      <main className="min-h-screen">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-secondary via-blue-900 to-secondary text-white py-32 overflow-hidden">
-          {/* Animated Background */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary/30 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-blue-500/20 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px]"></div>
-          </div>
-
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMtOS45NDEgMC0xOCA4LjA1OS0xOCAxOHM4LjA1OSAxOCAxOCAxOCAxOC04LjA1OSAxOC0xOC04LjA1OS0xOC0xOC0xOHptMCAzMmMtNy43MzIgMC0xNC02LjI2OC0xNC0xNHM2LjI2OC0xNCAxNC0xNCAxNCA2LjI2OCAxNCAxNC02LjI2OCAxNC0xNCAxNHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjAyIi8+PC9nPjwvc3ZnPg==')] opacity-40"></div>
-
-          <div className="container relative z-10 mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              {/* Badge */}
-              <Chip
-                startContent={<Sparkles size={14} />}
-                variant="flat"
-                color="primary"
-                className="mb-8 bg-white/10 text-white border border-white/20"
-                size="lg"
-              >
-                {t('badge')}
-              </Chip>
-
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+      <main>
+        {/* Hero */}
+        <section className="bg-secondary text-white">
+          <div className="container grid lg:grid-cols-12 gap-10 lg:gap-12 py-14 md:py-20 lg:py-24 items-center">
+            <div className="lg:col-span-6">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/60 mb-6">
+                <span className="inline-block w-6 h-px bg-primary align-middle mr-3" />
+                {t('eyebrow')}
+              </p>
+              <h1 className="font-display font-bold uppercase text-[2.75rem] leading-[0.95] sm:text-6xl lg:text-7xl tracking-tight mb-6 text-balance">
                 {t('title')}
-                <span className="block text-primary mt-2">{t('brandName')}</span>
               </h1>
-
-              <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-white/75 max-w-xl mb-10 leading-relaxed">
                 {t('subtitle')}
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   as={Link}
                   href={`/${locale}/categories`}
                   color="primary"
-                  variant="shadow"
                   size="lg"
-                  radius="full"
-                  endContent={<ArrowRight size={20} />}
-                  className="font-bold text-lg px-8 h-14 bg-gradient-to-r from-primary to-red-500"
+                  radius="sm"
+                  endContent={<ArrowRight size={18} />}
+                  className="font-semibold px-7"
                 >
                   {t('toCatalog')}
                 </Button>
@@ -90,110 +91,120 @@ export default function Home() {
                   href={`/${locale}/contact`}
                   variant="bordered"
                   size="lg"
-                  radius="full"
-                  className="font-bold text-lg px-8 h-14 border-white/30 text-white hover:bg-white/10"
+                  radius="sm"
+                  className="font-semibold px-7 border-1 border-white/40 text-white hover:bg-white hover:text-secondary"
                 >
                   {t('contactUs')}
                 </Button>
               </div>
             </div>
+            <div className="lg:col-span-6">
+              <PhotoSlot
+                src={siteImages.hero}
+                alt={t('heroAlt')}
+                hint="hero.jpg"
+                priority
+                className="aspect-[4/3] w-full border border-white/10"
+              />
+            </div>
           </div>
 
-          {/* Bottom Fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent"></div>
-        </section>
-
-        {/* Features Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <Card className="border-none shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
-                <CardBody className="p-8 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-red-500 flex items-center justify-center mx-auto mb-5 text-white shadow-lg">
-                    <Zap size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold text-secondary mb-3">{t('fastDelivery')}</h3>
-                  <p className="text-gray-600">{t('fastDeliveryDesc')}</p>
-                </CardBody>
-              </Card>
-
-              <Card className="border-none shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
-                <CardBody className="p-8 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary to-blue-700 flex items-center justify-center mx-auto mb-5 text-white shadow-lg">
-                    <Shield size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold text-secondary mb-3">{t('qualityGuarantee')}</h3>
-                  <p className="text-gray-600">{t('qualityGuaranteeDesc')}</p>
-                </CardBody>
-              </Card>
-
-              <Card className="border-none shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
-                <CardBody className="p-8 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-5 text-white shadow-lg">
-                    <Wrench size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold text-secondary mb-3">{t('expertSupport')}</h3>
-                  <p className="text-gray-600">{t('expertSupportDesc')}</p>
-                </CardBody>
-              </Card>
-            </div>
+          {/* Facts */}
+          <div className="border-t border-white/10">
+            <dl className="container grid sm:grid-cols-3">
+              {facts.map((fact, i) => (
+                <div
+                  key={fact.label}
+                  className={`py-6 sm:px-6 first:sm:pl-0 ${i > 0 ? 'border-t sm:border-t-0 sm:border-l border-white/10' : ''}`}
+                >
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/50 mb-1">{fact.label}</dt>
+                  <dd className="font-medium">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 
-        {/* Categories Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-14">
-              <Chip
-                startContent={<Star size={14} />}
-                variant="flat"
-                color="primary"
-                className="mb-4"
-              >
-                {t('productCatalog')}
-              </Chip>
-              <h2 className="text-4xl font-bold text-secondary mb-4">{t('ourCatalog')}</h2>
-              <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                {t('catalogDesc')}
-              </p>
+        {/* Catalog */}
+        <section className="py-16 md:py-24">
+          <div className="container">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+              <div>
+                <SectionLabel index="01">{t('catalogLabel')}</SectionLabel>
+                <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3">{t('ourCatalog')}</h2>
+                <p className="text-secondary/70 mt-2">{t('catalogDesc')}</p>
+              </div>
+              {categories.length > 0 && (
+                <Link
+                  href={`/${locale}/categories`}
+                  className="group inline-flex items-center gap-2 font-semibold text-secondary hover:text-primary transition-colors"
+                >
+                  {t('viewAll')}
+                  <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              )}
             </div>
+
             {loading ? (
               <div className="flex justify-center py-12">
-                <Spinner size="lg" color="primary" />
+                <Spinner color="primary" />
+              </div>
+            ) : categories.length === 0 ? (
+              <div className="border border-dashed border-secondary/20 px-6 py-10 text-secondary/70">
+                {tCatalog('noCategories')}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {categories.map((category) => (
-                  <CategoryCard key={category.id} category={category} />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-t border-secondary/15">
+                {categories.map((category, i) => (
+                  <CategoryCard key={category.id} category={category} index={i + 1} />
                 ))}
               </div>
             )}
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="relative py-24 bg-gradient-to-br from-secondary via-blue-900 to-secondary text-white overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/30 rounded-full blur-[80px]"></div>
-            <div className="absolute -bottom-20 -left-20 w-56 h-56 bg-blue-400/20 rounded-full blur-[80px]"></div>
-          </div>
-
-          <div className="container relative z-10 mx-auto px-4 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">{t('questionsTitle')}</h2>
-            <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              {t('questionsDesc')}
-            </p>
-            <Button
-              as={Link}
-              href={`/${locale}/contact`}
-              size="lg"
-              radius="full"
-              variant="shadow"
-              endContent={<ArrowRight size={20} />}
-              className="font-bold text-lg px-10 h-14 bg-white text-secondary hover:bg-gray-100"
-            >
-              {t('contactUs')}
-            </Button>
+        {/* Process */}
+        <section className="bg-gray-50 border-t border-secondary/10 py-16 md:py-24">
+          <div className="container grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-5">
+              <PhotoSlot
+                src={siteImages.workshop}
+                alt={t('workshopAlt')}
+                hint="workshop.jpg"
+                figure={2}
+                className="aspect-[4/5] w-full"
+              />
+            </div>
+            <div className="lg:col-span-7 flex flex-col">
+              <SectionLabel index="02">{t('processLabel')}</SectionLabel>
+              <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3 mb-10">
+                {t('processTitle')}
+              </h2>
+              <ol className="border-t border-secondary/15">
+                {steps.map((step, i) => (
+                  <li key={step.title} className="grid grid-cols-[3rem_1fr] gap-4 py-6 border-b border-secondary/15">
+                    <span className="font-mono text-sm text-primary pt-1">{String(i + 1).padStart(2, '0')}</span>
+                    <div>
+                      <h3 className="font-display font-semibold uppercase text-2xl tracking-tight mb-1">{step.title}</h3>
+                      <p className="text-secondary/70 leading-relaxed">{step.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-10">
+                <Button
+                  as={Link}
+                  href={`/${locale}/contact`}
+                  color="primary"
+                  size="lg"
+                  radius="sm"
+                  endContent={<ArrowRight size={18} />}
+                  className="font-semibold px-7"
+                >
+                  {t('processCta')}
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
       </main>

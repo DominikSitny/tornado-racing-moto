@@ -1,50 +1,79 @@
 'use client';
 
-import { Divider } from '@nextui-org/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FaInstagram, FaFacebook } from 'react-icons/fa';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { contactInfo } from '@/lib/contact-info';
 
 export default function Footer() {
+  const locale = useLocale();
   const tFooter = useTranslations('footer');
+  const tNav = useTranslations('navigation');
+
+  const links = [
+    { href: `/${locale}`, label: tNav('home') },
+    { href: `/${locale}/categories`, label: tNav('catalog') },
+    { href: `/${locale}/about`, label: tNav('about') },
+    { href: `/${locale}/contact`, label: tNav('contact') },
+  ];
+
+  const headingClass = 'font-mono text-[11px] uppercase tracking-[0.2em] text-white/50 mb-4';
 
   return (
-    <footer className="bg-white text-secondary py-12 border-t">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/logo.jpeg"
-              alt="Tornado Racing Cams"
-              width={150}
-              height={50}
-              className="object-contain"
-            />
+    <footer className="bg-secondary text-white">
+      <div className="container py-14 grid gap-10 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <div className="inline-block bg-white p-1.5 rounded-sm">
+            <Image src="/logo.jpeg" alt="Tornado Racing Cams" width={150} height={50} className="object-contain" />
           </div>
-          <Divider orientation="vertical" className="h-8 bg-secondary/20 hidden md:block" />
-          <div className="flex items-center gap-4">
+          <p className="text-white/70 mt-5 max-w-xs">{tFooter('tagline')}</p>
+        </div>
+
+        <nav className="md:col-span-3" aria-label={tFooter('pages')}>
+          <p className={headingClass}>{tFooter('pages')}</p>
+          <ul className="space-y-2">
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="text-white/80 hover:text-white transition-colors">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="md:col-span-4">
+          <p className={headingClass}>{tFooter('contact')}</p>
+          <a href={`mailto:${contactInfo.email}`} className="text-white/80 hover:text-white transition-colors break-all">
+            {contactInfo.email}
+          </a>
+          <div className="flex items-center gap-4 mt-5">
             <a
-              href="https://instagram.com/tornadoracingmoto"
+              href={contactInfo.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary hover:text-pink-500 transition-colors"
+              className="text-white/70 hover:text-white transition-colors"
               aria-label="Instagram"
             >
-              <FaInstagram className="w-6 h-6" />
+              <FaInstagram className="w-5 h-5" />
             </a>
             <a
-              href="https://www.facebook.com/p/Tornado-Racing-Moto-100054281929959/"
+              href={contactInfo.facebook.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary hover:text-blue-600 transition-colors"
+              className="text-white/70 hover:text-white transition-colors"
               aria-label="Facebook"
             >
-              <FaFacebook className="w-6 h-6" />
+              <FaFacebook className="w-5 h-5" />
             </a>
           </div>
-          <Divider orientation="vertical" className="h-8 bg-secondary/20 hidden md:block" />
-          <p className="text-secondary/60">{tFooter('copyright')}</p>
         </div>
+      </div>
+      <div className="border-t border-white/10">
+        <p className="container py-5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/40">
+          {tFooter('copyright', { year: new Date().getFullYear() })}
+        </p>
       </div>
     </footer>
   );

@@ -7,23 +7,32 @@
     "sendInquiry": "Wyślij zapytanie"
   },
   "home": {
-    "badge": "Części motocyklowe premium",
-    "title": "Witamy w",
-    "brandName": "Tornado Racing Moto",
-    "subtitle": "Twoje źródło wysokiej jakości komponentów i akcesoriów motocyklowych. Odkryj nasz szeroki katalog produktów.",
+    "eyebrow": "Tornado Racing Cams",
+    "title": "Wałki rozrządu i części silnika do wyścigów i na drogę",
+    "subtitle": "Podaj markę, model i rok produkcji. Sprawdzimy, która część pasuje, i prześlemy ofertę.",
     "toCatalog": "Do katalogu",
     "contactUs": "Skontaktuj się",
-    "fastDelivery": "Szybka dostawa",
-    "fastDeliveryDesc": "Ekspresowa wysyłka dla wszystkich zamówień w Niemczech.",
-    "qualityGuarantee": "Gwarancja jakości",
-    "qualityGuaranteeDesc": "Tylko oryginalne części zamienne od sprawdzonych producentów.",
-    "expertSupport": "Wsparcie ekspertów",
-    "expertSupportDesc": "Nasz zespół pomoże Ci wybrać odpowiednie części.",
-    "productCatalog": "Katalog produktów",
-    "ourCatalog": "Nasz katalog",
-    "catalogDesc": "Odkryj nasz szeroki asortyment części i akcesoriów motocyklowych",
-    "questionsTitle": "Pytania lub problemy?",
-    "questionsDesc": "Skontaktuj się z nami, aby uzyskać więcej informacji lub złożyć specjalne zamówienie. Chętnie pomożemy!"
+    "heroAlt": "Wałek rozrządu",
+    "workshopAlt": "Warsztat Tornado Racing Moto",
+    "factShipping": "Wysyłka",
+    "factShippingValue": "Niemcy · Polska · UE",
+    "factLanguages": "Doradztwo",
+    "factLanguagesValue": "Deutsch · English · Polski",
+    "factPrices": "Ceny",
+    "factPricesValue": "Indywidualna oferta na zapytanie",
+    "catalogLabel": "Katalog",
+    "ourCatalog": "Części według kategorii",
+    "catalogDesc": "Wybierz kategorię, potem model i odpowiednią część.",
+    "viewAll": "Zobacz cały katalog",
+    "processLabel": "Przebieg",
+    "processTitle": "Jak wygląda zapytanie",
+    "step1Title": "Wybierz część",
+    "step1Desc": "Znajdź swój model w katalogu lub opisz, czego potrzebujesz.",
+    "step2Title": "Wyślij zapytanie",
+    "step2Desc": "Podaj markę, model, rok produkcji i – jeśli masz – numer części.",
+    "step3Title": "Otrzymaj ofertę",
+    "step3Desc": "Sprawdzimy dopasowanie i dostępność, a potem odezwiemy się z ceną i terminem dostawy.",
+    "processCta": "Wyślij zapytanie"
   },
   "catalog": {
     "title": "Katalog",
@@ -40,11 +49,14 @@
     "showDetails": "Pokaż szczegóły",
     "backToParts": "Powrót do części",
     "category": "Kategoria",
-    "interestedContact": "Zainteresowany? Skontaktuj się"
+    "interestedContact": "Zapytaj o tę część",
+    "noCategories": "Katalog jest obecnie aktualizowany. Zajrzyj później lub skontaktuj się z nami bezpośrednio.",
+    "price": "Cena",
+    "lead": "Wybierz kategorię, potem model i odpowiednią część."
   },
   "contact": {
-    "title": "Skontaktuj się z nami",
-    "subtitle": "Masz pytania dotyczące naszych produktów lub chcesz dowiedzieć się więcej o nas? Wypełnij formularz, a wkrótce się z Tobą skontaktujemy.",
+    "title": "Kontakt",
+    "subtitle": "Pytania o część lub konkretne zapytanie? Napisz do nas – odpowiemy najszybciej, jak to możliwe.",
     "name": "Imię",
     "email": "E-mail",
     "message": "Wiadomość",
@@ -52,13 +64,27 @@
     "sending": "Wysyłanie...",
     "success": "Wiadomość wysłana pomyślnie!",
     "error": "Błąd wysyłania. Spróbuj ponownie.",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "namePlaceholder": "Jan Kowalski",
+    "emailPlaceholder": "jan@przyklad.pl",
+    "messagePlaceholder": "W czym możemy pomóc?",
+    "formTitle": "Napisz wiadomość",
+    "detailsTitle": "Kontakt bezpośredni",
+    "hintTitle": "Abyśmy mogli szybko odpowiedzieć",
+    "hint1": "Marka i model",
+    "hint2": "Rok produkcji",
+    "hint3": "Numer części, jeśli go masz",
+    "required": "Uzupełnij to pole.",
+    "invalidEmail": "Podaj poprawny adres e-mail."
   },
   "breadcrumb": {
     "home": "Strona główna"
   },
   "footer": {
-    "copyright": "© 2024 Tornado Racing Moto. Wszelkie prawa zastrzeżone."
+    "copyright": "© {year} Tornado Racing Moto. Wszelkie prawa zastrzeżone.",
+    "tagline": "Wałki rozrządu i części silnika do wyścigów i na drogę.",
+    "pages": "Strony",
+    "contact": "Kontakt"
   },
   "contactMessage": {
     "greeting": "Dzień dobry,",
@@ -76,18 +102,21 @@
     "storyText": "Tornado Racing Moto powstało z pasji do motocykli i chęci oferowania kierowcom wysokiej jakości części i akcesoriów. To, co zaczęło się jako mały projekt, jest dziś zaufanym partnerem dla entuzjastów motocykli w całej Europie.",
     "mission": "Nasza misja",
     "missionText": "Dążymy do oferowania każdemu klientowi najlepszych części motocyklowych w uczciwych cenach. Jakość, niezawodność i najwyższej klasy obsługa klienta są dla nas priorytetem.",
-    "values": "Nasze wartości",
     "quality": "Jakość",
-    "qualityText": "Oferujemy wyłącznie certyfikowane oryginalne części od renomowanych producentów.",
+    "qualityText": "Oferujemy wyłącznie sprawdzone części o znanym pochodzeniu.",
     "expertise": "Ekspertyza",
     "expertiseText": "Nasz zespół składa się z doświadczonych ekspertów motocyklowych, którzy kompetentnie doradzą.",
     "service": "Serwis",
     "serviceText": "Szybka dostawa, łatwe zwroty i osobiste wsparcie są dla nas oczywistością.",
-    "trust": "Zaufanie",
-    "trustText": "Tysiące zadowolonych klientów ufa naszym produktom i usługom.",
     "team": "Nasz zespół",
     "teamText": "Za Tornado Racing Moto stoi oddany zespół entuzjastów motocykli, którzy zamienili swoją pasję w zawód.",
     "contactCta": "Masz pytania? Skontaktuj się z nami!",
-    "contactButton": "Skontaktuj się"
+    "contactButton": "Skontaktuj się",
+    "lead": "Części motocyklowe, doradztwo i indywidualne oferty – po niemiecku, angielsku i polsku.",
+    "principles": "Na czym możesz polegać",
+    "ctaTitle": "Szukasz konkretnej części?",
+    "ctaText": "Podaj markę, model i rok produkcji – odezwiemy się z ofertą.",
+    "workshopAlt": "Warsztat Tornado Racing Moto",
+    "teamAlt": "Zespół Tornado Racing Moto"
   }
 }

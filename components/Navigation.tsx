@@ -37,10 +37,10 @@ export default function Navigation() {
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
       classNames={{
-        base: 'bg-white shadow-lg',
-        wrapper: 'max-w-7xl',
+        base: 'bg-white/95 backdrop-blur border-b border-secondary/10',
+        wrapper: 'max-w-[1280px] px-4 sm:px-6 lg:px-8',
       }}
-      isBordered
+      maxWidth="full"
     >
       {/* Mobile Menu Toggle */}
       <NavbarContent className="sm:hidden" justify="start">
@@ -90,10 +90,11 @@ export default function Navigation() {
           <NavbarItem key={item.href} isActive={isActive(item.href)}>
             <NextLink
               href={item.href}
-              className={`font-medium transition-colors ${
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              className={`relative py-2 text-[15px] font-semibold transition-colors after:absolute after:left-0 after:-bottom-px after:h-0.5 after:w-full after:bg-primary after:transition-transform after:origin-left ${
                 isActive(item.href)
-                  ? 'text-primary'
-                  : 'text-secondary hover:text-primary'
+                  ? 'text-secondary after:scale-x-100'
+                  : 'text-secondary/70 hover:text-secondary after:scale-x-0 hover:after:scale-x-100'
               }`}
             >
               {item.label}
@@ -108,8 +109,8 @@ export default function Navigation() {
             as={NextLink}
             href={`/${locale}/contact`}
             color="primary"
-            variant="shadow"
-            radius="full"
+            radius="sm"
+            className="font-semibold"
           >
             {t('sendInquiry')}
           </Button>
@@ -117,16 +118,14 @@ export default function Navigation() {
       </NavbarContent>
 
       {/* Mobile Menu */}
-      <NavbarMenu className="bg-white/95 backdrop-blur-lg pt-6">
+      <NavbarMenu className="bg-white pt-6">
         {navItems.map((item) => (
           <NavbarMenuItem key={item.href}>
             <NextLink
               href={item.href}
               onClick={() => setIsMenuOpen(false)}
-              className={`w-full text-lg py-2 block ${
-                isActive(item.href)
-                  ? 'text-primary font-bold'
-                  : 'text-secondary'
+              className={`w-full block py-3 border-b border-secondary/10 font-display font-semibold uppercase text-2xl tracking-tight ${
+                isActive(item.href) ? 'text-primary' : 'text-secondary'
               }`}
             >
               {item.label}
@@ -138,8 +137,8 @@ export default function Navigation() {
             as={NextLink}
             href={`/${locale}/contact`}
             color="primary"
-            variant="shadow"
-            radius="full"
+            radius="sm"
+            className="font-semibold"
             fullWidth
             onClick={() => setIsMenuOpen(false)}
           >

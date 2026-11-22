@@ -5,7 +5,7 @@ import { notFound, useParams } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ModelCard from '@/components/ModelCard';
-import Breadcrumb from '@/components/Breadcrumb';
+import PageHeader from '@/components/PageHeader';
 import { Category } from '@/lib/types';
 import { Spinner } from '@nextui-org/react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -35,14 +35,14 @@ export default function CategoryPage() {
       }
     }
     loadData();
-  }, [categoryId]);
+  }, [categoryId, locale]);
 
   if (loading) {
     return (
       <>
         <Navigation />
-        <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <Spinner size="lg" color="primary" />
+        <main className="min-h-[70vh] flex items-center justify-center">
+          <Spinner color="primary" />
         </main>
       </>
     );
@@ -55,33 +55,27 @@ export default function CategoryPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gray-50">
-        <Breadcrumb
-          items={[
+      <main>
+        <PageHeader
+          breadcrumb={[
             { label: t('title'), href: `/${locale}/categories` },
             { label: category.name },
           ]}
+          eyebrow={`${category.models.length} ${category.models.length === 1 ? t('model') : t('models')}`}
+          title={category.name}
+          lead={category.description || undefined}
         />
 
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl font-bold text-secondary mb-4">{category.name}</h1>
-            <p className="text-lg text-gray-600 mb-8 max-w-3xl">
-              {category.description}
-            </p>
-
+        <section className="py-12 md:py-16 pb-20">
+          <div className="container">
             {category.models.length === 0 ? (
-              <p className="text-gray-500 text-center py-12">
+              <div className="border border-dashed border-secondary/20 px-6 py-10 text-secondary/70">
                 {t('noModelsAvailable')}
-              </p>
+              </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-t border-secondary/15">
                 {category.models.map((model) => (
-                  <ModelCard
-                    key={model.id}
-                    model={model}
-                    categoryId={category.id}
-                  />
+                  <ModelCard key={model.id} model={model} categoryId={category.id} />
                 ))}
               </div>
             )}

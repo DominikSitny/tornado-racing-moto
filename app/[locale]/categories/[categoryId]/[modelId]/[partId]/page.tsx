@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { notFound, useParams } from 'next/navigation';
-import Image from 'next/image';
+import PartImage from '@/components/PartImage';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
-import { Button, Card, Chip, Divider, Spinner } from '@nextui-org/react';
-import { Mail, ArrowLeft, Tag, Bike } from 'lucide-react';
+import { Button, Spinner } from '@nextui-org/react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Category, Model, Part } from '@/lib/types';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -46,14 +46,14 @@ export default function PartPage() {
       }
     }
     loadData();
-  }, [categoryId, modelId, partId]);
+  }, [categoryId, modelId, partId, locale]);
 
   if (loading) {
     return (
       <>
         <Navigation />
-        <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <Spinner size="lg" color="primary" />
+        <main className="min-h-[70vh] flex items-center justify-center">
+          <Spinner color="primary" />
         </main>
       </>
     );
@@ -65,10 +65,16 @@ export default function PartPage() {
 
   const contactMessage = `${tMsg('greeting')}\n\n${tMsg('interested')}\n\n${tMsg('partLabel')}: ${part.name}\n${tMsg('modelLabel')}: ${model.brand} ${model.designation}\n${tMsg('categoryLabel')}: ${category.name}\n\n${tMsg('pleaseContact')}\n\n${tMsg('regards')}`;
 
+  const specs = [
+    { label: t('category'), value: category.name, href: `/${locale}/categories/${category.id}` },
+    { label: t('model'), value: `${model.brand} ${model.designation}`, href: `/${locale}/categories/${category.id}/${model.id}` },
+    { label: t('price'), value: part.price || t('onRequest') },
+  ];
+
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-gray-50">
+      <main>
         <Breadcrumb
           items={[
             { label: t('title'), href: `/${locale}/categories` },
@@ -81,90 +87,70 @@ export default function PartPage() {
           ]}
         />
 
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Image */}
-              <Card className="border-none shadow-xl overflow-hidden">
-                <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200">
-                  <Image
-                    src={part.image}
-                    alt={part.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </Card>
+        <section className="pt-6 pb-20">
+          <div className="container grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-7">
+              <PartImage
+                src={part.image}
+                alt={part.name}
+                priority
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                className="aspect-[4/3] w-full border border-secondary/10"
+              />
+            </div>
 
-              {/* Details */}
-              <div className="flex flex-col">
-                <Chip
+            <div className="lg:col-span-5 flex flex-col">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-secondary/50 mb-4">
+                <span className="inline-block w-6 h-px bg-primary align-middle mr-3" />
+                {model.brand} {model.designation}
+              </p>
+              <h1 className="font-display font-bold uppercase text-5xl md:text-6xl leading-[0.95] tracking-tight mb-5 text-balance">
+                {part.name}
+              </h1>
+              {part.description && (
+                <p className="text-lg text-secondary/75 leading-relaxed mb-8 whitespace-pre-line">{part.description}</p>
+              )}
+
+              <dl className="border-t border-secondary/15 mb-8">
+                {specs.map((spec) => (
+                  <div key={spec.label} className="grid grid-cols-[8rem_1fr] gap-4 py-3 border-b border-secondary/15">
+                    <dt className="font-mono text-[11px] uppercase tracking-[0.15em] text-secondary/50 pt-1">{spec.label}</dt>
+                    <dd className="font-medium">
+                      {spec.href ? (
+                        <Link href={spec.href} className="hover:text-primary transition-colors">
+                          {spec.value}
+                        </Link>
+                      ) : (
+                        spec.value
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  as={Link}
+                  href={`/${locale}/contact?message=${encodeURIComponent(contactMessage)}`}
                   color="primary"
-                  variant="flat"
-                  size="sm"
-                  className="mb-4 self-start"
+                  size="lg"
+                  radius="sm"
+                  endContent={<ArrowRight size={18} />}
+                  className="font-semibold px-7"
                 >
-                  {category.name}
-                </Chip>
-
-                <h1 className="text-4xl font-bold text-secondary mb-4">
-                  {part.name}
-                </h1>
-
-                <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                  {part.description}
-                </p>
-
-                <div className="flex flex-col gap-4 mb-8">
-                  <Button
-                    as={Link}
-                    href={`/${locale}/contact?message=${encodeURIComponent(contactMessage)}`}
-                    color="primary"
-                    variant="shadow"
-                    size="lg"
-                    radius="lg"
-                    startContent={<Mail size={20} />}
-                    className="font-bold text-lg h-14 bg-gradient-to-r from-primary to-red-500"
-                  >
-                    {t('interestedContact')}
-                  </Button>
-                  <Button
-                    as={Link}
-                    href={`/${locale}/categories/${category.id}/${model.id}`}
-                    variant="bordered"
-                    size="lg"
-                    radius="lg"
-                    startContent={<ArrowLeft size={20} />}
-                    className="font-medium h-14"
-                  >
-                    {t('backToParts')}
-                  </Button>
-                </div>
-
-                <Divider className="my-4" />
-
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Tag size={18} className="text-gray-400" />
-                    <span className="text-gray-600">{t('category')}:</span>
-                    <Link
-                      href={`/${locale}/categories/${category.id}`}
-                      className="text-primary font-medium hover:underline"
-                    >
-                      {category.name}
-                    </Link>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Bike size={18} className="text-gray-400" />
-                    <span className="text-gray-600">{t('model')}:</span>
-                    <Link
-                      href={`/${locale}/categories/${category.id}/${model.id}`}
-                      className="text-primary font-medium hover:underline"
-                    >
-                      {model.brand} {model.designation}
-                    </Link>
-                  </div>
-                </div>
+                  {t('interestedContact')}
+                </Button>
+                <Button
+                  as={Link}
+                  href={`/${locale}/categories/${category.id}/${model.id}`}
+                  variant="bordered"
+                  size="lg"
+                  radius="sm"
+                  startContent={<ArrowLeft size={18} />}
+                  className="font-semibold border-1 border-secondary/25 text-secondary"
+                >
+                  {t('backToParts')}
+                </Button>
               </div>
             </div>
           </div>

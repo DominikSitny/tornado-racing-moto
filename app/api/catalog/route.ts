@@ -11,7 +11,8 @@ import {
   deleteModel,
   createPart,
   updatePart,
-  deletePart
+  deletePart,
+  AdminError,
 } from '@/lib/supabase-data';
 import { Locale } from '@/lib/types';
 
@@ -52,42 +53,60 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
-    // CRUD Operationen
+    if (!data || typeof data !== 'object') {
+      return NextResponse.json({ error: 'Es wurden keine Daten übermittelt.' }, { status: 400 });
+    }
+
+    // CRUD Operationen – IDs werden auf dem Server vergeben, nicht vom Browser
+    const { id, ...fields } = data;
     switch (action) {
       case 'createCategory':
-        await createCategory(data);
+        await createCategory(fields);
         break;
       case 'updateCategory':
-        await updateCategory(data.id, data);
+        await updateCategory(id, fields);
         break;
       case 'deleteCategory':
-        await deleteCategory(data.id);
+        await deleteCategory(id);
         break;
       case 'createModel':
-        await createModel(data);
+        await createModel(fields);
         break;
       case 'updateModel':
-        await updateModel(data.id, data);
+        await updateModel(id, fields);
         break;
       case 'deleteModel':
-        await deleteModel(data.id);
+        await deleteModel(id);
         break;
       case 'createPart':
-        await createPart(data);
+        await createPart(fields);
         break;
       case 'updatePart':
-        await updatePart(data.id, data);
+        await updatePart(id, fields);
         break;
       case 'deletePart':
-        await deletePart(data.id);
+        await deletePart(id);
         break;
       default:
-        return NextResponse.json({ error: 'Unbekannte Aktion' }, { status: 400 });
+        return NextResponse.json({ error: `Unbekannte Aktion „${action}“.` }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    if (error instanceof AdminError) {
+      if (error.status >= 500) console.error('Admin error:', error.message, error.details);
+      return NextResponse.json(
+        { error: error.message, field: error.field, details: error.details },
+        { status: error.status }
+      );
+    }
     console.error('Error:', error);
-    return NextResponse.json({ error: 'Fehler beim Speichern' }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Beim Speichern ist ein unerwarteter Fehler aufgetreten.',
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
   }
 }

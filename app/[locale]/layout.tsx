@@ -3,11 +3,25 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { Providers } from './providers';
-import { Inter } from 'next/font/google';
+import { Barlow, Barlow_Condensed, JetBrains_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
 
-const inter = Inter({
-  subsets: ['latin'],
+const fontSans = Barlow({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
+});
+
+const fontDisplay = Barlow_Condensed({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['600', '700'],
+  variable: '--font-display',
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
 });
 
 const BASE_URL = 'https://tornado-racing-moto.vercel.app';
@@ -100,7 +114,7 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} className="light">
+    <html lang={locale} className={`light ${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable}`}>
       <head>
         <link rel="alternate" hrefLang="de" href={`${BASE_URL}/de`} />
         <link rel="alternate" hrefLang="en" href={`${BASE_URL}/en`} />
@@ -115,7 +129,7 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className={`${inter.className} antialiased bg-gray-50`}>
+      <body className="font-sans antialiased bg-white text-secondary">
         <NextIntlClientProvider messages={messages}>
           <Providers>
             {children}

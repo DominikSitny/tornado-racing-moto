@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button, Card, CardBody, Input } from '@nextui-org/react';
-import { Lock, Eye, EyeOff } from 'lucide-react';
+import { Button, Input } from '@nextui-org/react';
+import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 
 const SITE_PASSWORD = 'tornado2024';
@@ -43,88 +43,58 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
 
   // Loading state
   if (isAuthenticated === null) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-secondary via-blue-900 to-secondary flex items-center justify-center">
-        <div className="animate-pulse">
-          <Image
-            src="/logo.jpeg"
-            alt="Tornado Racing Moto"
-            width={120}
-            height={120}
-            className="rounded-2xl"
-          />
-        </div>
-      </div>
-    );
+    return <div className="min-h-screen bg-secondary" />;
   }
 
   // Show password form
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-secondary via-blue-900 to-secondary flex items-center justify-center p-4">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px]"></div>
-          <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] bg-blue-500/15 rounded-full blur-[100px]"></div>
+      <div className="min-h-screen bg-secondary text-white flex items-center justify-center p-4">
+        <div className="w-full max-w-sm">
+          <div className="inline-block bg-white p-1.5 rounded-sm mb-10">
+            <Image src="/logo.jpeg" alt="Tornado Racing Moto" width={150} height={50} className="object-contain" priority />
+          </div>
+          <h1 className="font-display font-bold uppercase text-5xl leading-[0.95] tracking-tight mb-3">
+            Tornado Racing Moto
+          </h1>
+          <p className="text-white/70 mb-8">Bitte gib das Passwort ein, um fortzufahren.</p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              label="Passwort"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              radius="sm"
+              autoFocus
+              endContent={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="focus:outline-none"
+                  aria-label={showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'}
+                >
+                  {showPassword ? (
+                    <EyeOff size={18} className="text-secondary/50" />
+                  ) : (
+                    <Eye size={18} className="text-secondary/50" />
+                  )}
+                </button>
+              }
+              isInvalid={!!error}
+              errorMessage={error}
+              classNames={{
+                label: 'font-mono text-[11px] uppercase tracking-[0.15em]',
+                inputWrapper: 'bg-white data-[hover=true]:bg-white group-data-[focus=true]:bg-white',
+                errorMessage: 'text-red-300',
+              }}
+            />
+
+            <Button type="submit" color="primary" size="lg" radius="sm" className="w-full font-semibold" isLoading={isLoading}>
+              Zugang erhalten
+            </Button>
+          </form>
         </div>
-
-        <Card className="w-full max-w-md border-none shadow-2xl relative z-10">
-          <CardBody className="p-8">
-            <div className="flex flex-col items-center mb-8">
-              <Image
-                src="/logo.jpeg"
-                alt="Tornado Racing Moto"
-                width={100}
-                height={100}
-                className="rounded-2xl shadow-lg mb-4"
-              />
-              <h1 className="text-2xl font-bold text-secondary text-center">
-                Tornado Racing Moto
-              </h1>
-              <p className="text-gray-500 text-center mt-2">
-                Bitte gib das Passwort ein, um fortzufahren
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <Input
-                type={showPassword ? 'text' : 'password'}
-                label="Passwort"
-                placeholder="Passwort eingeben"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                startContent={<Lock size={18} className="text-gray-400" />}
-                endContent={
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="focus:outline-none"
-                  >
-                    {showPassword ? (
-                      <EyeOff size={18} className="text-gray-400" />
-                    ) : (
-                      <Eye size={18} className="text-gray-400" />
-                    )}
-                  </button>
-                }
-                isInvalid={!!error}
-                errorMessage={error}
-                classNames={{
-                  inputWrapper: 'bg-gray-100',
-                }}
-              />
-
-              <Button
-                type="submit"
-                color="primary"
-                size="lg"
-                className="w-full font-bold bg-gradient-to-r from-primary to-red-500"
-                isLoading={isLoading}
-              >
-                Zugang erhalten
-              </Button>
-            </form>
-          </CardBody>
-        </Card>
       </div>
     );
   }

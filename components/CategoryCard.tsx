@@ -1,60 +1,47 @@
 'use client';
 
-import { Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
 import Link from 'next/link';
 import { Category } from '@/lib/types';
-import { Bike, ChevronRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
 interface CategoryCardProps {
   category: Category;
+  /** Position in the list, shown as "01", "02", … */
+  index?: number;
 }
 
-export default function CategoryCard({ category }: CategoryCardProps) {
+export default function CategoryCard({ category, index }: CategoryCardProps) {
   const locale = useLocale();
   const t = useTranslations('catalog');
+  const modelCount = category.models.length;
 
   return (
-    <Link href={`/${locale}/categories/${category.id}`} className="block w-full">
-      <Card
-        isPressable
-        isHoverable
-        className="h-[280px] w-full border-none bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-      >
-        <CardBody className="p-6 gap-4 flex-grow">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shadow-lg flex-shrink-0">
-            <Bike size={28} />
-          </div>
+    <Link
+      href={`/${locale}/categories/${category.id}`}
+      className="group relative flex flex-col bg-white border-r border-b border-secondary/15 p-6 md:p-8 min-h-[240px] transition-colors hover:bg-secondary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+    >
+      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-[0.15em] text-secondary/50 group-hover:text-white/60 mb-8">
+        <span>{index !== undefined ? String(index).padStart(2, '0') : ''}</span>
+        <span>
+          {modelCount} {modelCount === 1 ? t('model') : t('models')}
+        </span>
+      </div>
 
-          <div className="flex-grow">
-            <h2 className="text-2xl font-bold text-secondary mb-2">
-              {category.name}
-            </h2>
-            <p className="text-gray-600 text-sm line-clamp-3">
-              {category.description}
-            </p>
-          </div>
-        </CardBody>
+      <h2 className="font-display font-bold uppercase text-3xl tracking-tight leading-none mb-3">
+        {category.name}
+      </h2>
+      {category.description && (
+        <p className="text-secondary/70 group-hover:text-white/75 text-sm leading-relaxed line-clamp-3">
+          {category.description}
+        </p>
+      )}
 
-        <CardFooter className="pt-0 px-6 pb-6 flex justify-between items-center mt-auto">
-          <Chip
-            color="primary"
-            variant="flat"
-            size="sm"
-            classNames={{
-              base: 'bg-primary/10',
-              content: 'text-primary font-semibold',
-            }}
-          >
-            {category.models.length} {category.models.length === 1 ? t('model') : t('models')}
-          </Chip>
-
-          <div className="flex items-center gap-1 text-primary font-medium text-sm">
-            <span>{t('view')}</span>
-            <ChevronRight size={18} />
-          </div>
-        </CardFooter>
-      </Card>
+      <span className="mt-auto pt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:text-white">
+        {t('view')}
+        <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </span>
+      <span className="absolute left-0 top-0 h-full w-0.5 bg-primary scale-y-0 origin-top transition-transform group-hover:scale-y-100" />
     </Link>
   );
 }

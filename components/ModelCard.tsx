@@ -1,9 +1,8 @@
 'use client';
 
-import { Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
 import Link from 'next/link';
 import { Model } from '@/lib/types';
-import { Wrench, ChevronRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
 interface ModelCardProps {
@@ -14,53 +13,30 @@ interface ModelCardProps {
 export default function ModelCard({ model, categoryId }: ModelCardProps) {
   const locale = useLocale();
   const t = useTranslations('catalog');
+  const partCount = model.parts.length;
 
   return (
-    <Link href={`/${locale}/categories/${categoryId}/${model.id}`} className="block w-full">
-      <Card
-        isPressable
-        isHoverable
-        className="h-[280px] w-full border-none bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-      >
-        <CardBody className="p-6 gap-4 flex-grow">
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <Chip
-              color="primary"
-              variant="shadow"
-              size="sm"
-              classNames={{
-                base: 'bg-gradient-to-r from-primary to-red-500',
-                content: 'text-white font-bold text-xs',
-              }}
-            >
-              {model.brand}
-            </Chip>
-          </div>
+    <Link
+      href={`/${locale}/categories/${categoryId}/${model.id}`}
+      className="group relative flex flex-col bg-white border-r border-b border-secondary/15 p-6 md:p-8 min-h-[240px] transition-colors hover:bg-secondary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+    >
+      <div className="flex items-center justify-between font-mono text-xs uppercase tracking-[0.15em] mb-8">
+        <span className="text-primary group-hover:text-white">{model.brand}</span>
+        <span className="text-secondary/50 group-hover:text-white/60">
+          {partCount} {partCount === 1 ? t('part') : t('parts')}
+        </span>
+      </div>
 
-          <div className="flex-grow">
-            <h2 className="text-2xl font-bold text-secondary mb-2">
-              {model.designation}
-            </h2>
-            <p className="text-gray-600 text-sm line-clamp-3 leading-relaxed">
-              {model.description}
-            </p>
-          </div>
-        </CardBody>
+      <h2 className="font-display font-bold uppercase text-3xl tracking-tight leading-none mb-3">{model.designation}</h2>
+      {model.description && (
+        <p className="text-secondary/70 group-hover:text-white/75 text-sm leading-relaxed line-clamp-3">{model.description}</p>
+      )}
 
-        <CardFooter className="pt-0 px-6 pb-6 flex justify-between items-center mt-auto">
-          <div className="flex items-center gap-2">
-            <Wrench size={16} className="text-primary" />
-            <span className="text-primary font-semibold text-sm">
-              {model.parts.length} {model.parts.length === 1 ? t('part') : t('parts')}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1 text-secondary font-medium text-sm group-hover:text-primary transition-colors">
-            <span>{t('details')}</span>
-            <ChevronRight size={18} />
-          </div>
-        </CardFooter>
-      </Card>
+      <span className="mt-auto pt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:text-white">
+        {t('details')}
+        <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </span>
+      <span className="absolute left-0 top-0 h-full w-0.5 bg-primary scale-y-0 origin-top transition-transform group-hover:scale-y-100" />
     </Link>
   );
 }

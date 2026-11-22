@@ -18,15 +18,17 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
   const t = useTranslations('breadcrumb');
 
   return (
-    <div className="container mx-auto px-4 py-5">
+    <div className="container pt-6 pb-2">
       <Breadcrumbs
-        variant="solid"
-        radius="full"
         classNames={{
-          list: 'bg-white shadow-sm px-4 py-2',
+          list: 'font-mono text-xs uppercase tracking-[0.12em]',
+        }}
+        itemClasses={{
+          item: 'text-secondary/50 data-[current=true]:text-secondary',
+          separator: 'text-secondary/30',
         }}
       >
-        <BreadcrumbItem key="home" href={`/${locale}`} startContent={<Home size={16} />}>
+        <BreadcrumbItem key="home" href={`/${locale}`} startContent={<Home size={14} />}>
           {t('home')}
         </BreadcrumbItem>
         {items.map((item, index) => (
@@ -35,7 +37,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
             href={item.href}
             isCurrent={!item.href}
             classNames={{
-              item: !item.href ? 'text-primary font-bold' : '',
+              item: !item.href ? 'text-secondary' : '',
             }}
           >
             {item.label}
