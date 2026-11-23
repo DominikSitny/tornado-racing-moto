@@ -32,7 +32,10 @@
     "step2Desc": "Send us the make, model, year and – if you have it – the part number.",
     "step3Title": "Get a quote",
     "step3Desc": "We check fit and availability and get back to you with price and delivery time.",
-    "processCta": "Send inquiry"
+    "processCta": "Send inquiry",
+    "finish": "Finish",
+    "replay": "Replay",
+    "trackAria": "Speedway track: an inquiry in three sections"
   },
   "catalog": {
     "title": "Catalog",

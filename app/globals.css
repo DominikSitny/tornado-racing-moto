@@ -37,3 +37,42 @@ body {
     padding-right: 2rem;
   }
 }
+
+/* Speedway lap on the homepage (components/ProcessRace.tsx) */
+@keyframes race-flag-wave {
+  0%, 100% { transform: skewY(0deg) scaleX(1); }
+  25% { transform: skewY(-6deg) scaleX(0.94); }
+  75% { transform: skewY(5deg) scaleX(1.03); }
+}
+.race-flag-wave {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: race-flag-wave 0.9s ease-in-out infinite;
+}
+@keyframes race-finish-pulse {
+  0% { r: 10; opacity: 0.9; stroke-width: 3; }
+  100% { r: 40; opacity: 0; stroke-width: 1; }
+}
+.race-finish-pulse {
+  animation: race-finish-pulse 1.4s ease-out 3;
+}
+@keyframes race-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.race-pop {
+  animation: race-pop 0.45s ease-out both;
+}
+@keyframes race-spray {
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0.9; }
+  100% { transform: translate(5px, 7px) scale(1.25); opacity: 0.35; }
+}
+.race-spray {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: race-spray 0.25s linear infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .race-flag-wave, .race-finish-pulse, .race-pop, .race-spray { animation: none; }
+}

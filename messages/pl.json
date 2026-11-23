@@ -32,7 +32,10 @@
     "step2Desc": "Podaj markę, model, rok produkcji i – jeśli masz – numer części.",
     "step3Title": "Otrzymaj ofertę",
     "step3Desc": "Sprawdzimy dopasowanie i dostępność, a potem odezwiemy się z ceną i terminem dostawy.",
-    "processCta": "Wyślij zapytanie"
+    "processCta": "Wyślij zapytanie",
+    "finish": "Meta",
+    "replay": "Jeszcze raz",
+    "trackAria": "Tor żużlowy: przebieg zapytania w trzech etapach"
   },
   "catalog": {
     "title": "Katalog",

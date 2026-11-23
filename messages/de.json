@@ -32,7 +32,10 @@
     "step2Desc": "Schick uns Hersteller, Modell, Baujahr und – falls vorhanden – die Teilenummer.",
     "step3Title": "Angebot erhalten",
     "step3Desc": "Wir prüfen Passform und Verfügbarkeit und melden uns mit Preis und Lieferzeit.",
-    "processCta": "Anfrage senden"
+    "processCta": "Anfrage senden",
+    "finish": "Ziel",
+    "replay": "Nochmal",
+    "trackAria": "Speedway-Bahn: Ablauf einer Anfrage in drei Abschnitten"
   },
   "catalog": {
     "title": "Katalog",

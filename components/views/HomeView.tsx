@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import CategoryCard from '@/components/CategoryCard';
 import Image from 'next/image';
 import PhotoSlot from '@/components/PhotoSlot';
+import ProcessRace from '@/components/ProcessRace';
 import { siteImages } from '@/lib/site-images';
 import { Category } from '@/lib/types';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
@@ -212,48 +213,32 @@ export default function HomeView({ categories }: { categories: Category[] }) {
         </section>
 
         {/* Process */}
-        <section className="bg-gray-50 border-t border-secondary/10 py-16 md:py-24">
-          <div className="container grid lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="lg:col-span-5">
-              <PhotoSlot
-                src={siteImages.workshop}
-                alt={t('workshopAlt')}
-                hint="workshop.jpg"
-                figure={2}
-                className="aspect-[4/5] w-full"
-              />
-            </div>
-            <div className="lg:col-span-7 flex flex-col">
-              <SectionLabel index="02">{t('processLabel')}</SectionLabel>
-              <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3 mb-10">
-                {t('processTitle')}
-              </h2>
-              <ol className="border-t border-secondary/15">
-                {steps.map((step, i) => (
-                  <li key={step.title} className="grid grid-cols-[3rem_1fr] gap-4 py-6 border-b border-secondary/15">
-                    <span className="font-mono text-sm text-primary pt-1">{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3 className="font-display font-semibold uppercase text-2xl tracking-tight mb-1">{step.title}</h3>
-                      <p className="text-secondary/70 leading-relaxed">{step.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-10">
-                <Button
-                  as={Link}
-                  href={`/${locale}/contact`}
-                  color="primary"
-                  size="lg"
-                  radius="sm"
-                  endContent={<ArrowRight size={18} />}
-                  className="font-semibold px-7"
-                >
-                  {t('processCta')}
-                </Button>
-              </div>
-            </div>
-          </div>
+        <section id="ablauf" className="bg-gray-50 border-t border-secondary/10 py-16 md:py-24 scroll-mt-20">
+          <ProcessRace
+            steps={steps}
+            finishLabel={t('finish')}
+            replayLabel={t('replay')}
+            trackLabel={t('trackAria')}
+            header={
+              <>
+                <SectionLabel index="02">{t('processLabel')}</SectionLabel>
+                <h2 className="font-display font-bold uppercase text-4xl md:text-5xl tracking-tight mt-3">{t('processTitle')}</h2>
+              </>
+            }
+            cta={
+              <Button
+                as={Link}
+                href={`/${locale}/contact`}
+                color="primary"
+                size="lg"
+                radius="sm"
+                endContent={<ArrowRight size={18} />}
+                className="font-semibold px-7"
+              >
+                {t('processCta')}
+              </Button>
+            }
+          />
         </section>
       </main>
 
