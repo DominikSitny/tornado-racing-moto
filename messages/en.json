@@ -84,7 +84,9 @@
     "copyright": "© {year} Tornado Racing Moto. All rights reserved.",
     "tagline": "Camshafts and engine parts for racing and road.",
     "pages": "Pages",
-    "contact": "Contact"
+    "contact": "Contact",
+    "imprint": "Imprint",
+    "privacy": "Privacy policy"
   },
   "contactMessage": {
     "greeting": "Hello,",

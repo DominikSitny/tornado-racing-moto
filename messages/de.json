@@ -84,7 +84,9 @@
     "copyright": "© {year} Tornado Racing Moto. Alle Rechte vorbehalten.",
     "tagline": "Nockenwellen und Motorteile für Rennsport und Straße.",
     "pages": "Seiten",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
   },
   "contactMessage": {
     "greeting": "Hallo,",

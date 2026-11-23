@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaInstagram, FaFacebook } from 'react-icons/fa';
 import { useLocale, useTranslations } from 'next-intl';
-import { contactInfo } from '@/lib/contact-info';
+import { contactInfo, phoneHref } from '@/lib/contact-info';
 
 export default function Footer() {
   const locale = useLocale();
@@ -45,9 +45,21 @@ export default function Footer() {
 
         <div className="md:col-span-4">
           <p className={headingClass}>{tFooter('contact')}</p>
-          <a href={`mailto:${contactInfo.email}`} className="text-white/80 hover:text-white transition-colors break-all">
-            {contactInfo.email}
-          </a>
+          <ul className="space-y-1">
+            <li>
+              <a href={`mailto:${contactInfo.email}`} className="text-white/80 hover:text-white transition-colors break-all">
+                {contactInfo.email}
+              </a>
+            </li>
+            {contactInfo.phones.map((phone) => (
+              <li key={phone.number}>
+                <a href={phoneHref(phone.number)} className="text-white/80 hover:text-white transition-colors">
+                  <span className="font-mono text-[11px] text-white/50 mr-2">{phone.label}</span>
+                  {phone.number}
+                </a>
+              </li>
+            ))}
+          </ul>
           <div className="flex items-center gap-4 mt-5">
             <a
               href={contactInfo.instagram.url}
@@ -71,9 +83,17 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <p className="container py-5 font-mono text-[11px] uppercase tracking-[0.15em] text-white/40">
-          {tFooter('copyright', { year: new Date().getFullYear() })}
-        </p>
+        <div className="container py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-white/40">
+          <p>{tFooter('copyright', { year: new Date().getFullYear() })}</p>
+          <nav className="flex gap-5" aria-label={`${tFooter('imprint')} / ${tFooter('privacy')}`}>
+            <Link href={`/${locale}/impressum`} className="hover:text-white transition-colors">
+              {tFooter('imprint')}
+            </Link>
+            <Link href={`/${locale}/datenschutz`} className="hover:text-white transition-colors">
+              {tFooter('privacy')}
+            </Link>
+          </nav>
+        </div>
       </div>
     </footer>
   );

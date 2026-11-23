@@ -23,7 +23,7 @@ export default function ContactPage() {
 
   const channels = [
     { label: t('email'), value: contactInfo.email, href: `mailto:${contactInfo.email}` },
-    ...(contactInfo.phone ? [{ label: t('phone'), value: contactInfo.phone, href: phoneHref(contactInfo.phone) }] : []),
+    ...contactInfo.phones.map((phone) => ({ label: `${t('phone')} ${phone.label}`, value: phone.number, href: phoneHref(phone.number) })),
     { label: 'Instagram', value: contactInfo.instagram.handle, href: contactInfo.instagram.url, external: true },
     { label: 'Facebook', value: contactInfo.facebook.name, href: contactInfo.facebook.url, external: true },
   ];

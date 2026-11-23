@@ -84,7 +84,9 @@
     "copyright": "© {year} Tornado Racing Moto. Wszelkie prawa zastrzeżone.",
     "tagline": "Wałki rozrządu i części silnika do wyścigów i na drogę.",
     "pages": "Strony",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "imprint": "Nota prawna",
+    "privacy": "Polityka prywatności"
   },
   "contactMessage": {
     "greeting": "Dzień dobry,",
