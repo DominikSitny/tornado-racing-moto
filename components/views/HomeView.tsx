@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CategoryCard from '@/components/CategoryCard';
+import Image from 'next/image';
 import PhotoSlot from '@/components/PhotoSlot';
 import { siteImages } from '@/lib/site-images';
 import { Category } from '@/lib/types';
@@ -43,6 +44,75 @@ export default function HomeView({ categories }: { categories: Category[] }) {
       <main>
         {/* Hero */}
         <section className="bg-secondary text-white">
+          {siteImages.hero ? (
+            <>
+              {/* Banner: full-width photo, text below so no rider is covered */}
+              <div className="relative w-full h-[clamp(240px,50vw,720px)] overflow-hidden">
+                <Image
+                  src={siteImages.hero}
+                  alt={t('heroAlt')}
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-cover"
+                  style={{ objectPosition: '50% 68%' }}
+                />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-secondary to-transparent" />
+              </div>
+              <div className="container pt-8 pb-14 md:pt-10 md:pb-16 grid lg:grid-cols-12 gap-8 lg:items-end">
+                <div className="lg:col-span-8">
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/60 mb-6">
+                    <span className="inline-block w-6 h-px bg-primary align-middle mr-3" />
+                    {t('eyebrow')}
+                  </p>
+                  <h1 className="font-display font-bold uppercase text-[2.75rem] leading-[0.95] sm:text-6xl lg:text-7xl tracking-tight mb-6 text-balance">
+                    {t('title')}
+                  </h1>
+                  <p className="text-lg md:text-xl text-white/75 max-w-xl mb-10 leading-relaxed">
+                    {t('subtitle')}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 lg:hidden">
+                    <Button
+                      as={Link}
+                      href={`/${locale}/categories`}
+                      color="primary"
+                      size="lg"
+                      radius="sm"
+                      endContent={<ArrowRight size={18} />}
+                      className="font-semibold px-7"
+                    >
+                      {t('toCatalog')}
+                    </Button>
+                    <Button
+                      as={Link}
+                      href={`/${locale}/contact`}
+                      variant="bordered"
+                      size="lg"
+                      radius="sm"
+                      className="font-semibold px-7 border-1 border-white/40 text-white hover:bg-white hover:text-secondary"
+                    >
+                      {t('contactUs')}
+                    </Button>
+                  </div>
+                </div>
+                <div className="hidden lg:flex lg:col-span-4 lg:justify-end gap-3 pb-1">
+                  <Button as={Link} href={`/${locale}/categories`} color="primary" size="lg" radius="sm" endContent={<ArrowRight size={18} />} className="font-semibold px-7">
+                    {t('toCatalog')}
+                  </Button>
+                  <Button
+                    as={Link}
+                    href={`/${locale}/contact`}
+                    variant="bordered"
+                    size="lg"
+                    radius="sm"
+                    className="font-semibold px-7 border-1 border-white/40 text-white hover:bg-white hover:text-secondary"
+                  >
+                    {t('contactUs')}
+                  </Button>
+                </div>
+              </div>
+            </>
+          ) : (
           <div className="container grid lg:grid-cols-12 gap-10 lg:gap-12 py-14 md:py-20 lg:py-24 items-center">
             <div className="lg:col-span-6">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/60 mb-6">
@@ -89,6 +159,7 @@ export default function HomeView({ categories }: { categories: Category[] }) {
               />
             </div>
           </div>
+          )}
 
           {/* Facts */}
           <div className="border-t border-white/10">

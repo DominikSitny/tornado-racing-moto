@@ -51,6 +51,7 @@ export function getImprint(locale: Locale): LegalDocument {
         { title: 'Provider', body: [addressBlock('en'), ...registrationBlock('en')] },
         { title: 'Contact', body: [contactBlock('en')] },
         { title: 'Responsible for the content', body: [`${c.owner}, ${c.address.street}, ${c.address.postalCode} ${c.address.city}, ${c.address.country.en}`] },
+        { title: 'Image credits', body: ['Speedway photo on the home page: Michał Gołda (@Majkel1980), licensed under CC0.'] },
         {
           title: 'Liability for links',
           body: ['Our website contains links to external websites (e.g. Instagram, Facebook). We have no influence on their content; the respective provider is responsible for it.'],
@@ -66,6 +67,7 @@ export function getImprint(locale: Locale): LegalDocument {
         { title: 'Usługodawca', body: [addressBlock('pl'), ...registrationBlock('pl')] },
         { title: 'Kontakt', body: [contactBlock('pl')] },
         { title: 'Odpowiedzialny za treść', body: [`${c.owner}, ${c.address.street}, ${c.address.postalCode} ${c.address.city}, ${c.address.country.pl}`] },
+        { title: 'Źródła zdjęć', body: ['Zdjęcie żużlowe na stronie głównej: Michał Gołda (@Majkel1980), licencja CC0.'] },
         {
           title: 'Odpowiedzialność za linki',
           body: ['Nasza strona zawiera linki do zewnętrznych serwisów (np. Instagram, Facebook). Nie mamy wpływu na ich treść; odpowiada za nią dany operator.'],
@@ -80,6 +82,7 @@ export function getImprint(locale: Locale): LegalDocument {
       { title: 'Anbieter', body: [addressBlock('de'), ...registrationBlock('de')] },
       { title: 'Kontakt', body: [contactBlock('de')] },
       { title: 'Verantwortlich für den Inhalt', body: [`${c.owner}, ${c.address.street}, ${c.address.postalCode} ${c.address.city}, ${c.address.country.de}`] },
+      { title: 'Bildnachweis', body: ['Speedway-Foto auf der Startseite: Michał Gołda (@Majkel1980), Lizenz CC0.'] },
       {
         title: 'Haftung für Links',
         body: ['Unsere Website enthält Links zu externen Websites (z. B. Instagram, Facebook). Auf deren Inhalte haben wir keinen Einfluss; dafür ist der jeweilige Anbieter verantwortlich.'],

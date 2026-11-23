@@ -41,10 +41,10 @@ export const metadata: Metadata = {
       "Hochwertige Motorradkomponenten und Zubehör für alle Marken. Ersatzteile, Performance-Parts und Zubehör für Motorräder.",
     images: [
       {
-        url: "/logo.jpeg",
+        url: "/images/site/og-speedway.jpg",
         width: 1200,
         height: 630,
-        alt: "Tornado Racing Moto Logo",
+        alt: "Speedway-Rennen – Tornado Racing Moto",
       },
     ],
   },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "Tornado Racing Moto - Motorradteile & Zubehör",
     description:
       "Hochwertige Motorradkomponenten und Zubehör für alle Marken.",
-    images: ["/logo.jpeg"],
+    images: ["/images/site/og-speedway.jpg"],
   },
   robots: {
     index: true,
