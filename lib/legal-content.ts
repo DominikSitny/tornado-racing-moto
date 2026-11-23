@@ -4,7 +4,7 @@ import { Locale } from '@/lib/types';
 /**
  * Impressum und Datenschutzerklärung (DE / EN / PL).
  * Beschreibt nur, was die Website tatsächlich tut (Stand: November 2026):
- * Hosting bei Vercel, Katalog/Bilder bei Supabase, Kontaktformular über Resend,
+ * Hosting bei Vercel, Katalog/Bilder bei Supabase, Kontaktformular per SMTP über wp.pl,
  * Vercel Web Analytics ohne Cookies, lokal eingebundene Schriften, keine Cookies.
  * Bei Änderungen an der Website (z. B. neue Dienste, Cookies) bitte anpassen.
  */
@@ -112,7 +112,7 @@ export function getPrivacy(locale: Locale): LegalDocument {
         {
           title: '4. Contact form, email and phone',
           body: [
-            'If you contact us via the contact form, we process your name, email address and message in order to answer your enquiry. The form is sent via the email service Resend (Resend Inc., USA) to our mailbox at wp.pl (Wirtualna Polska Media S.A., Poland); you also receive a confirmation email. The data is not stored in a database on this website.',
+            'If you contact us via the contact form, we process your name, email address and message in order to answer your enquiry. The message is sent by email through the mail server of our email provider wp.pl (Wirtualna Polska Media S.A., Poland) to our mailbox; you also receive a confirmation email. The data is not stored in a database on this website.',
             'The same applies when you contact us by email or phone. Legal basis: Art. 6(1)(b) GDPR (steps prior to a contract) and Art. 6(1)(f) GDPR (legitimate interest in answering enquiries). We delete the data once your enquiry has been dealt with, unless statutory retention obligations apply.',
           ],
         },
@@ -167,7 +167,7 @@ export function getPrivacy(locale: Locale): LegalDocument {
         {
           title: '4. Formularz kontaktowy, e-mail i telefon',
           body: [
-            'Jeśli skontaktujesz się z nami przez formularz, przetwarzamy Twoje imię, adres e-mail i treść wiadomości w celu odpowiedzi na zapytanie. Formularz jest wysyłany za pośrednictwem usługi Resend (Resend Inc., USA) na naszą skrzynkę w wp.pl (Wirtualna Polska Media S.A., Polska); otrzymasz również e-mail z potwierdzeniem. Dane nie są zapisywane w bazie danych tej strony.',
+            'Jeśli skontaktujesz się z nami przez formularz, przetwarzamy Twoje imię, adres e-mail i treść wiadomości w celu odpowiedzi na zapytanie. Wiadomość jest wysyłana e-mailem przez serwer pocztowy naszego dostawcy wp.pl (Wirtualna Polska Media S.A., Polska) na naszą skrzynkę; otrzymasz również e-mail z potwierdzeniem. Dane nie są zapisywane w bazie danych tej strony.',
             'To samo dotyczy kontaktu e-mailowego lub telefonicznego. Podstawa prawna: art. 6 ust. 1 lit. b RODO (działania przed zawarciem umowy) oraz art. 6 ust. 1 lit. f RODO (prawnie uzasadniony interes w odpowiadaniu na zapytania). Dane usuwamy po załatwieniu sprawy, o ile nie obowiązują ustawowe okresy przechowywania.',
           ],
         },
@@ -221,7 +221,7 @@ export function getPrivacy(locale: Locale): LegalDocument {
       {
         title: '4. Kontaktformular, E-Mail und Telefon',
         body: [
-          'Wenn du uns über das Kontaktformular schreibst, verarbeiten wir Name, E-Mail-Adresse und Nachricht, um deine Anfrage zu beantworten. Das Formular wird über den E-Mail-Dienst Resend (Resend Inc., USA) an unser Postfach bei wp.pl (Wirtualna Polska Media S.A., Polen) gesendet; du erhältst außerdem eine Bestätigungs-E-Mail. Eine Speicherung in einer Datenbank dieser Website erfolgt nicht.',
+          'Wenn du uns über das Kontaktformular schreibst, verarbeiten wir Name, E-Mail-Adresse und Nachricht, um deine Anfrage zu beantworten. Die Nachricht wird per E-Mail über den Mailserver unseres E-Mail-Anbieters wp.pl (Wirtualna Polska Media S.A., Polen) an unser Postfach gesendet; du erhältst außerdem eine Bestätigungs-E-Mail. Eine Speicherung in einer Datenbank dieser Website erfolgt nicht.',
           'Dasselbe gilt, wenn du uns per E-Mail oder Telefon kontaktierst. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags) und Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Wir löschen die Daten, sobald deine Anfrage erledigt ist, sofern keine gesetzlichen Aufbewahrungspflichten bestehen.',
         ],
       },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import { Input, Textarea, Button } from '@nextui-org/react';
 import { Send, CheckCircle } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
@@ -25,6 +25,8 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  // Spam trap: hidden from people, often filled in by bots
+  const honeypotRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -73,7 +75,7 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formData, locale }),
+        body: JSON.stringify({ ...formData, locale, website: honeypotRef.current?.value ?? '' }),
       });
 
       if (response.ok) {
@@ -109,6 +111,12 @@ export default function ContactForm({ initialMessage = '' }: ContactFormProps) {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+            <label>
+              Website
+              <input ref={honeypotRef} type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+            </label>
+          </div>
           <Input
             label={t('name')}
             placeholder={t('namePlaceholder')}
