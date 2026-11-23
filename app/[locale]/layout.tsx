@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import { Providers } from './providers';
 import { Barlow, Barlow_Condensed, JetBrains_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
+import { DEFAULT_OG_IMAGE } from '@/lib/catalog-server';
 
 const fontSans = Barlow({
   subsets: ['latin', 'latin-ext'],
@@ -64,10 +65,22 @@ export async function generateMetadata({
       },
     },
     openGraph: {
+      type: 'website',
+      siteName: 'Tornado Racing Moto',
+      url: `${BASE_URL}/${locale}`,
+      title: meta.title,
+      description: meta.description,
+      images: [DEFAULT_OG_IMAGE],
       locale: locale === 'de' ? 'de_DE' : locale === 'en' ? 'en_US' : 'pl_PL',
       alternateLocale: ['de_DE', 'en_US', 'pl_PL'].filter(
         (l) => l !== (locale === 'de' ? 'de_DE' : locale === 'en' ? 'en_US' : 'pl_PL')
       ),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: meta.title,
+      description: meta.description,
+      images: [DEFAULT_OG_IMAGE.url],
     },
   };
 }

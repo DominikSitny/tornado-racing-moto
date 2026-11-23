@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
-import { metaDescription } from '@/lib/catalog-server';
+import { DEFAULT_OG_IMAGE, metaDescription } from '@/lib/catalog-server';
 
 const BASE_URL = 'https://tornado-racing-moto.vercel.app';
 
@@ -53,6 +53,7 @@ export async function generateMetadata({
       },
     },
     openGraph: {
+      images: [DEFAULT_OG_IMAGE],
       title: name,
       description: description || `${name} - Motorradteile`,
     },

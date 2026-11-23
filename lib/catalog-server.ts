@@ -3,6 +3,15 @@ import { Locale } from '@/lib/types';
 
 export const BASE_URL = 'https://tornado-racing-moto.vercel.app';
 
+/** Preview image for shared links (WhatsApp, Facebook, …). Must be repeated in every openGraph block,
+ *  because a child segment's openGraph replaces the parent's completely. */
+export const DEFAULT_OG_IMAGE = {
+  url: '/images/site/og-speedway.jpg',
+  width: 1200,
+  height: 630,
+  alt: 'Speedway – Tornado Racing Moto',
+};
+
 const LOCALES: Locale[] = ['de', 'en', 'pl'];
 export const toLocale = (value: string): Locale => (LOCALES.includes(value as Locale) ? (value as Locale) : 'de');
 
